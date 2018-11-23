@@ -1,0 +1,48 @@
+{
+  "generator-jhipster": {
+    "promptValues": {
+      "packageName": "com.saimir.gasa.releasevitals",
+      "nativeLanguage": "en"
+    },
+    "jhipsterVersion": "5.4.2",
+    "applicationType": "monolith",
+    "baseName": "ReleaseVitals",
+    "packageName": "com.saimir.gasa.releasevitals",
+    "packageFolder": "com/saimir/gasa/releasevitals",
+    "serverPort": "8080",
+    "authenticationType": "jwt",
+    "cacheProvider": "ehcache",
+    "enableHibernateCache": true,
+    "websocket": false,
+    "databaseType": "sql",
+    "devDatabaseType": "postgresql",
+    "prodDatabaseType": "postgresql",
+    "searchEngine": "elasticsearch",
+    "messageBroker": false,
+    "serviceDiscoveryType": false,
+    "buildTool": "maven",
+    "enableSwaggerCodegen": false,
+    "jwtSecretKey": "MDAyODVhNGFiYmU4NjZjY2FmNGI5Yzk4NzdlNzE3NDQ3YTYyODlkZmViZGRiZjE0NjU5MTNkZjc0YTFmNGU1MjMwZWJhZGYxNjY5NzhkMzBhMzllY2I5MTNjZWM5Njk3NmE0MTc2N2Y4OTZmMDgzZTA5NjAzZmU1NTljOGRiOTE=",
+    "clientFramework": "angularX",
+    "useSass": true,
+    "clientPackageManager": "npm",
+    "testFrameworks": [
+      "gatling",
+      "protractor"
+    ],
+    "jhiPrefix": "jhi",
+    "enableTranslation": true,
+    "nativeLanguage": "en",
+    "languages": [
+      "en",
+      "al",
+      "cs",
+      "fr",
+      "de",
+      "it",
+      "ru",
+      "es",
+      "vi"
+    ]
+  }
+}
