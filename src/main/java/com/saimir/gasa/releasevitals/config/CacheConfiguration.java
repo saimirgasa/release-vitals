@@ -38,6 +38,21 @@ public class CacheConfiguration {
             cm.createCache(com.saimir.gasa.releasevitals.domain.User.class.getName(), jcacheConfiguration);
             cm.createCache(com.saimir.gasa.releasevitals.domain.Authority.class.getName(), jcacheConfiguration);
             cm.createCache(com.saimir.gasa.releasevitals.domain.User.class.getName() + ".authorities", jcacheConfiguration);
+            cm.createCache(com.saimir.gasa.releasevitals.domain.Release.class.getName(), jcacheConfiguration);
+            cm.createCache(com.saimir.gasa.releasevitals.domain.Release.class.getName() + ".projects", jcacheConfiguration);
+            cm.createCache(com.saimir.gasa.releasevitals.domain.Sprint.class.getName(), jcacheConfiguration);
+            cm.createCache(com.saimir.gasa.releasevitals.domain.Sprint.class.getName() + ".issues", jcacheConfiguration);
+            cm.createCache(com.saimir.gasa.releasevitals.domain.Project.class.getName(), jcacheConfiguration);
+            cm.createCache(com.saimir.gasa.releasevitals.domain.Project.class.getName() + ".versions", jcacheConfiguration);
+            cm.createCache(com.saimir.gasa.releasevitals.domain.Project.class.getName() + ".epics", jcacheConfiguration);
+            cm.createCache(com.saimir.gasa.releasevitals.domain.Project.class.getName() + ".issues", jcacheConfiguration);
+            cm.createCache(com.saimir.gasa.releasevitals.domain.Version.class.getName(), jcacheConfiguration);
+            cm.createCache(com.saimir.gasa.releasevitals.domain.Epic.class.getName(), jcacheConfiguration);
+            cm.createCache(com.saimir.gasa.releasevitals.domain.Epic.class.getName() + ".unestimatedIssues", jcacheConfiguration);
+            cm.createCache(com.saimir.gasa.releasevitals.domain.Issue.class.getName(), jcacheConfiguration);
+            cm.createCache(com.saimir.gasa.releasevitals.domain.Issue.class.getName() + ".statuses", jcacheConfiguration);
+            cm.createCache(com.saimir.gasa.releasevitals.domain.Issue.class.getName() + ".fixVersions", jcacheConfiguration);
+            cm.createCache(com.saimir.gasa.releasevitals.domain.Status.class.getName(), jcacheConfiguration);
             // jhipster-needle-ehcache-add-entry
         };
     }
