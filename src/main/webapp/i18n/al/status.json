@@ -1,0 +1,26 @@
+
+{
+    "releaseVitalsApp": {
+        "status" : {
+            "home": {
+                "title": "Statuses",
+                "createLabel": "Krijo një të ri Status",
+                "createOrEditLabel": "Krijo ose përpuno një Status",
+                "search": "Kërko për Status"
+            },
+            "created": "Një Status i ri u krijua me identifikues {{ param }}",
+            "updated": "Një Status u përpunua me identifikues {{ param }}",
+            "deleted": "Një Status u fshi me identifikues {{ param }}",
+            "delete": {
+                "question": "Jeni i sigurtë që doni të fshini Status {{ id }}?"
+            },
+            "detail": {
+                "title": "Status"
+            },
+            "fromStatus": "From Status",
+            "toStatus": "To Status",
+            "timeChaged": "Time Chaged",
+            "issue": "Issue"
+        }
+    }
+}

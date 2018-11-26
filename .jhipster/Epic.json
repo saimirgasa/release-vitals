@@ -1,0 +1,60 @@
+{
+    "name": "Epic",
+    "fields": [
+        {
+            "fieldName": "name",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "totalStoryPoints",
+            "fieldType": "Double"
+        },
+        {
+            "fieldName": "storyPointsCompleted",
+            "fieldType": "Double"
+        },
+        {
+            "fieldName": "remainingStoryPoints",
+            "fieldType": "Double"
+        },
+        {
+            "fieldName": "totalIssueCount",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "percentageCompleted",
+            "fieldType": "Double"
+        },
+        {
+            "fieldName": "key",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "epicBrowserURL",
+            "fieldType": "String"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipName": "project",
+            "otherEntityName": "project",
+            "relationshipType": "many-to-one",
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipType": "one-to-many",
+            "relationshipName": "unestimatedIssue",
+            "otherEntityName": "issue",
+            "otherEntityRelationshipName": "epic"
+        }
+    ],
+    "changelogDate": "20181123125651",
+    "entityTableName": "epic",
+    "dto": "no",
+    "pagination": "pagination",
+    "service": "serviceImpl",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*"
+}

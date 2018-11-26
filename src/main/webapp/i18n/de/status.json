@@ -1,0 +1,26 @@
+
+{
+    "releaseVitalsApp": {
+        "status" : {
+            "home": {
+                "title": "Statuses",
+                "createLabel": "Status erstellen",
+                "createOrEditLabel": "Status erstellen oder bearbeiten",
+                "search": "Suche nach Status"
+            },
+            "created": "Status erstellt mit ID {{ param }}",
+            "updated": "Status aktualisiert mit ID {{ param }}",
+            "deleted": "Status gelöscht mit ID {{ param }}",
+            "delete": {
+                "question": "Soll Status {{ id }} wirklich dauerhaft gelöscht werden?"
+            },
+            "detail": {
+                "title": "Status"
+            },
+            "fromStatus": "From Status",
+            "toStatus": "To Status",
+            "timeChaged": "Time Chaged",
+            "issue": "Issue"
+        }
+    }
+}

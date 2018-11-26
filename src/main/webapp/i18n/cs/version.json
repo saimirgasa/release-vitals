@@ -1,0 +1,25 @@
+
+{
+    "releaseVitalsApp": {
+        "version" : {
+            "home": {
+                "title": "Versions",
+                "createLabel": "Vytvořit Version",
+                "createOrEditLabel": "Vytvořit nebo upravit Version",
+                "search": "Vyhledat Version"
+            },
+            "created": "Byl vytvořen potomek entity Version s identifikátorem {{ param }}",
+            "updated": "Potomek entity Version s identifikátorem {{ param }} byl upravený.",
+            "deleted": "Potomek entity Version s identifikátorem {{ param }} bol smazaný.",
+            "delete": {
+                "question": "Jste si jisti, že chcete smazat Version {{ id }}?"
+            },
+            "detail": {
+                "title": "Version"
+            },
+            "name": "Name",
+            "project": "Project",
+            "issue": "Issue"
+        }
+    }
+}

@@ -1,0 +1,25 @@
+
+{
+    "releaseVitalsApp": {
+        "version" : {
+            "home": {
+                "title": "Versions",
+                "createLabel": "Krijo një të ri Version",
+                "createOrEditLabel": "Krijo ose përpuno një Version",
+                "search": "Kërko për Version"
+            },
+            "created": "Një Version i ri u krijua me identifikues {{ param }}",
+            "updated": "Një Version u përpunua me identifikues {{ param }}",
+            "deleted": "Një Version u fshi me identifikues {{ param }}",
+            "delete": {
+                "question": "Jeni i sigurtë që doni të fshini Version {{ id }}?"
+            },
+            "detail": {
+                "title": "Version"
+            },
+            "name": "Name",
+            "project": "Project",
+            "issue": "Issue"
+        }
+    }
+}

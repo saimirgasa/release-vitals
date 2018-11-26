@@ -1,0 +1,32 @@
+
+{
+    "releaseVitalsApp": {
+        "epic" : {
+            "home": {
+                "title": "Epics",
+                "createLabel": "Создать новый Epic",
+                "createOrEditLabel": "Создать или отредактировать Epic",
+                "search": "Найти Epic"
+            },
+            "created": "Новый Epic создан с идентификатором {{ param }}",
+            "updated": "Epic обновлен с идентификатором {{ param }}",
+            "deleted": "Epic удален с идентификатором {{ param }}",
+            "delete": {
+                "question": "Вы уверены что хотите удалить Epic {{ id }}?"
+            },
+            "detail": {
+                "title": "Epic"
+            },
+            "name": "Name",
+            "totalStoryPoints": "Total Story Points",
+            "storyPointsCompleted": "Story Points Completed",
+            "remainingStoryPoints": "Remaining Story Points",
+            "totalIssueCount": "Total Issue Count",
+            "percentageCompleted": "Percentage Completed",
+            "key": "Key",
+            "epicBrowserURL": "Epic Browser URL",
+            "project": "Project",
+            "unestimatedIssue": "Unestimated Issue"
+        }
+    }
+}

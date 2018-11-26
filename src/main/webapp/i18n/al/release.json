@@ -1,0 +1,26 @@
+
+{
+    "releaseVitalsApp": {
+        "release" : {
+            "home": {
+                "title": "Releases",
+                "createLabel": "Krijo një të ri Release",
+                "createOrEditLabel": "Krijo ose përpuno një Release",
+                "search": "Kërko për Release"
+            },
+            "created": "Një Release i ri u krijua me identifikues {{ param }}",
+            "updated": "Një Release u përpunua me identifikues {{ param }}",
+            "deleted": "Një Release u fshi me identifikues {{ param }}",
+            "delete": {
+                "question": "Jeni i sigurtë që doni të fshini Release {{ id }}?"
+            },
+            "detail": {
+                "title": "Release"
+            },
+            "name": "Name",
+            "startDate": "Start Date",
+            "endDate": "End Date",
+            "project": "Project"
+        }
+    }
+}

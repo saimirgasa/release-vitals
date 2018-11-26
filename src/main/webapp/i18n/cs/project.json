@@ -1,0 +1,28 @@
+
+{
+    "releaseVitalsApp": {
+        "project" : {
+            "home": {
+                "title": "Projects",
+                "createLabel": "Vytvořit Project",
+                "createOrEditLabel": "Vytvořit nebo upravit Project",
+                "search": "Vyhledat Project"
+            },
+            "created": "Byl vytvořen potomek entity Project s identifikátorem {{ param }}",
+            "updated": "Potomek entity Project s identifikátorem {{ param }} byl upravený.",
+            "deleted": "Potomek entity Project s identifikátorem {{ param }} bol smazaný.",
+            "delete": {
+                "question": "Jste si jisti, že chcete smazat Project {{ id }}?"
+            },
+            "detail": {
+                "title": "Project"
+            },
+            "name": "Name",
+            "key": "Key",
+            "release": "Release",
+            "version": "Version",
+            "epic": "Epic",
+            "issue": "Issue"
+        }
+    }
+}

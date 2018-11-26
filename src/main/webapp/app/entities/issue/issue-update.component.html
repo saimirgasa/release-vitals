@@ -1,0 +1,60 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+            <h2 id="jhi-issue-heading" jhiTranslate="releaseVitalsApp.issue.home.createOrEditLabel">Create or edit a Issue</h2>
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+                <div class="form-group" [hidden]="!issue.id">
+                    <label for="id" jhiTranslate="global.field.id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id"
+                        [(ngModel)]="issue.id" readonly />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="releaseVitalsApp.issue.title" for="field_title">Title</label>
+                    <input type="text" class="form-control" name="title" id="field_title"
+                        [(ngModel)]="issue.title" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="releaseVitalsApp.issue.description" for="field_description">Description</label>
+                    <input type="text" class="form-control" name="description" id="field_description"
+                        [(ngModel)]="issue.description" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="releaseVitalsApp.issue.key" for="field_key">Key</label>
+                    <input type="text" class="form-control" name="key" id="field_key"
+                        [(ngModel)]="issue.key" />
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="releaseVitalsApp.issue.sprint" for="field_sprint">Sprint</label>
+                    <select class="form-control" id="field_sprint" name="sprint" [(ngModel)]="issue.sprint" >
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="sprintOption.id === issue.sprint?.id ? issue.sprint : sprintOption" *ngFor="let sprintOption of sprints; trackBy: trackSprintById">{{sprintOption.id}}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="releaseVitalsApp.issue.project" for="field_project">Project</label>
+                    <select class="form-control" id="field_project" name="project" [(ngModel)]="issue.project" >
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="projectOption.id === issue.project?.id ? issue.project : projectOption" *ngFor="let projectOption of projects; trackBy: trackProjectById">{{projectOption.id}}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="releaseVitalsApp.issue.epic" for="field_epic">Epic</label>
+                    <select class="form-control" id="field_epic" name="epic" [(ngModel)]="issue.epic" >
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="epicOption.id === issue.epic?.id ? issue.epic : epicOption" *ngFor="let epicOption of epics; trackBy: trackEpicById">{{epicOption.id}}</option>
+                    </select>
+                </div>
+            </div>
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
+                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+                </button>
+                <button type="submit" id="save-entity" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

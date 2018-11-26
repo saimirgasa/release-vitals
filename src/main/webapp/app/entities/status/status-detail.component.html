@@ -1,0 +1,41 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="status">
+            <h2><span jhiTranslate="releaseVitalsApp.status.detail.title">Status</span> {{status.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="releaseVitalsApp.status.fromStatus">From Status</span></dt>
+                <dd>
+                    <span>{{status.fromStatus}}</span>
+                </dd>
+                <dt><span jhiTranslate="releaseVitalsApp.status.toStatus">To Status</span></dt>
+                <dd>
+                    <span>{{status.toStatus}}</span>
+                </dd>
+                <dt><span jhiTranslate="releaseVitalsApp.status.timeChaged">Time Chaged</span></dt>
+                <dd>
+                    <span>{{status.timeChaged}}</span>
+                </dd>
+                <dt><span jhiTranslate="releaseVitalsApp.status.issue">Issue</span></dt>
+                <dd>
+                    <div *ngIf="status.issue">
+                        <a [routerLink]="['/issue', status.issue?.id, 'view']">{{status.issue?.id}}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/status', status.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

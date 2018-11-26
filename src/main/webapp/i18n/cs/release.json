@@ -1,0 +1,26 @@
+
+{
+    "releaseVitalsApp": {
+        "release" : {
+            "home": {
+                "title": "Releases",
+                "createLabel": "Vytvořit Release",
+                "createOrEditLabel": "Vytvořit nebo upravit Release",
+                "search": "Vyhledat Release"
+            },
+            "created": "Byl vytvořen potomek entity Release s identifikátorem {{ param }}",
+            "updated": "Potomek entity Release s identifikátorem {{ param }} byl upravený.",
+            "deleted": "Potomek entity Release s identifikátorem {{ param }} bol smazaný.",
+            "delete": {
+                "question": "Jste si jisti, že chcete smazat Release {{ id }}?"
+            },
+            "detail": {
+                "title": "Release"
+            },
+            "name": "Name",
+            "startDate": "Start Date",
+            "endDate": "End Date",
+            "project": "Project"
+        }
+    }
+}

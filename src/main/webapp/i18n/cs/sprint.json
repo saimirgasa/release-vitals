@@ -1,0 +1,27 @@
+
+{
+    "releaseVitalsApp": {
+        "sprint" : {
+            "home": {
+                "title": "Sprints",
+                "createLabel": "Vytvořit Sprint",
+                "createOrEditLabel": "Vytvořit nebo upravit Sprint",
+                "search": "Vyhledat Sprint"
+            },
+            "created": "Byl vytvořen potomek entity Sprint s identifikátorem {{ param }}",
+            "updated": "Potomek entity Sprint s identifikátorem {{ param }} byl upravený.",
+            "deleted": "Potomek entity Sprint s identifikátorem {{ param }} bol smazaný.",
+            "delete": {
+                "question": "Jste si jisti, že chcete smazat Sprint {{ id }}?"
+            },
+            "detail": {
+                "title": "Sprint"
+            },
+            "name": "Name",
+            "startDatetime": "Start Datetime",
+            "endDatetime": "End Datetime",
+            "velocity": "Velocity",
+            "issue": "Issue"
+        }
+    }
+}

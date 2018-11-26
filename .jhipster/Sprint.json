@@ -1,0 +1,38 @@
+{
+    "name": "Sprint",
+    "fields": [
+        {
+            "fieldName": "name",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "startDatetime",
+            "fieldType": "Instant"
+        },
+        {
+            "fieldName": "endDatetime",
+            "fieldType": "Instant"
+        },
+        {
+            "fieldName": "velocity",
+            "fieldType": "Long"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "one-to-many",
+            "relationshipName": "issue",
+            "otherEntityName": "issue",
+            "otherEntityRelationshipName": "sprint"
+        }
+    ],
+    "changelogDate": "20181123125648",
+    "entityTableName": "sprint",
+    "dto": "no",
+    "pagination": "pagination",
+    "service": "serviceImpl",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*"
+}

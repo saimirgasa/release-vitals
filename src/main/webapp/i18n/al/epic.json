@@ -1,0 +1,32 @@
+
+{
+    "releaseVitalsApp": {
+        "epic" : {
+            "home": {
+                "title": "Epics",
+                "createLabel": "Krijo një të ri Epic",
+                "createOrEditLabel": "Krijo ose përpuno një Epic",
+                "search": "Kërko për Epic"
+            },
+            "created": "Një Epic i ri u krijua me identifikues {{ param }}",
+            "updated": "Një Epic u përpunua me identifikues {{ param }}",
+            "deleted": "Një Epic u fshi me identifikues {{ param }}",
+            "delete": {
+                "question": "Jeni i sigurtë që doni të fshini Epic {{ id }}?"
+            },
+            "detail": {
+                "title": "Epic"
+            },
+            "name": "Name",
+            "totalStoryPoints": "Total Story Points",
+            "storyPointsCompleted": "Story Points Completed",
+            "remainingStoryPoints": "Remaining Story Points",
+            "totalIssueCount": "Total Issue Count",
+            "percentageCompleted": "Percentage Completed",
+            "key": "Key",
+            "epicBrowserURL": "Epic Browser URL",
+            "project": "Project",
+            "unestimatedIssue": "Unestimated Issue"
+        }
+    }
+}

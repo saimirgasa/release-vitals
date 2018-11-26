@@ -1,0 +1,32 @@
+
+{
+    "releaseVitalsApp": {
+        "epic" : {
+            "home": {
+                "title": "Epics",
+                "createLabel": "Thêm mới một Epic",
+                "createOrEditLabel": "Thêm mới hoặc cập nhật Epic",
+                "search": "Tìm Epic"
+            },
+            "created": "Một Epic mới được tạo với định danh {{ param }}",
+            "updated": "Một Epic cập nhật với định danh {{ param }}",
+            "deleted": "Một Epic đã xóa với định danh {{ param }}",
+            "delete": {
+                "question": "Bạn có chắc là muốn xóa Epic {{ id }}?"
+            },
+            "detail": {
+                "title": "Epic"
+            },
+            "name": "Name",
+            "totalStoryPoints": "Total Story Points",
+            "storyPointsCompleted": "Story Points Completed",
+            "remainingStoryPoints": "Remaining Story Points",
+            "totalIssueCount": "Total Issue Count",
+            "percentageCompleted": "Percentage Completed",
+            "key": "Key",
+            "epicBrowserURL": "Epic Browser URL",
+            "project": "Project",
+            "unestimatedIssue": "Unestimated Issue"
+        }
+    }
+}

@@ -1,0 +1,26 @@
+
+{
+    "releaseVitalsApp": {
+        "release" : {
+            "home": {
+                "title": "Releases",
+                "createLabel": "Thêm mới một Release",
+                "createOrEditLabel": "Thêm mới hoặc cập nhật Release",
+                "search": "Tìm Release"
+            },
+            "created": "Một Release mới được tạo với định danh {{ param }}",
+            "updated": "Một Release cập nhật với định danh {{ param }}",
+            "deleted": "Một Release đã xóa với định danh {{ param }}",
+            "delete": {
+                "question": "Bạn có chắc là muốn xóa Release {{ id }}?"
+            },
+            "detail": {
+                "title": "Release"
+            },
+            "name": "Name",
+            "startDate": "Start Date",
+            "endDate": "End Date",
+            "project": "Project"
+        }
+    }
+}

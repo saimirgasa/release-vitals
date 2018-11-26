@@ -1,0 +1,27 @@
+
+{
+    "releaseVitalsApp": {
+        "sprint" : {
+            "home": {
+                "title": "Sprints",
+                "createLabel": "Thêm mới một Sprint",
+                "createOrEditLabel": "Thêm mới hoặc cập nhật Sprint",
+                "search": "Tìm Sprint"
+            },
+            "created": "Một Sprint mới được tạo với định danh {{ param }}",
+            "updated": "Một Sprint cập nhật với định danh {{ param }}",
+            "deleted": "Một Sprint đã xóa với định danh {{ param }}",
+            "delete": {
+                "question": "Bạn có chắc là muốn xóa Sprint {{ id }}?"
+            },
+            "detail": {
+                "title": "Sprint"
+            },
+            "name": "Name",
+            "startDatetime": "Start Datetime",
+            "endDatetime": "End Datetime",
+            "velocity": "Velocity",
+            "issue": "Issue"
+        }
+    }
+}

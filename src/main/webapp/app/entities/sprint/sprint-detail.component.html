@@ -1,0 +1,39 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="sprint">
+            <h2><span jhiTranslate="releaseVitalsApp.sprint.detail.title">Sprint</span> {{sprint.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="releaseVitalsApp.sprint.name">Name</span></dt>
+                <dd>
+                    <span>{{sprint.name}}</span>
+                </dd>
+                <dt><span jhiTranslate="releaseVitalsApp.sprint.startDatetime">Start Datetime</span></dt>
+                <dd>
+                    <span>{{sprint.startDatetime}}</span>
+                </dd>
+                <dt><span jhiTranslate="releaseVitalsApp.sprint.endDatetime">End Datetime</span></dt>
+                <dd>
+                    <span>{{sprint.endDatetime}}</span>
+                </dd>
+                <dt><span jhiTranslate="releaseVitalsApp.sprint.velocity">Velocity</span></dt>
+                <dd>
+                    <span>{{sprint.velocity}}</span>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/sprint', sprint.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

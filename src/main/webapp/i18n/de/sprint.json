@@ -1,0 +1,27 @@
+
+{
+    "releaseVitalsApp": {
+        "sprint" : {
+            "home": {
+                "title": "Sprints",
+                "createLabel": "Sprint erstellen",
+                "createOrEditLabel": "Sprint erstellen oder bearbeiten",
+                "search": "Suche nach Sprint"
+            },
+            "created": "Sprint erstellt mit ID {{ param }}",
+            "updated": "Sprint aktualisiert mit ID {{ param }}",
+            "deleted": "Sprint gelöscht mit ID {{ param }}",
+            "delete": {
+                "question": "Soll Sprint {{ id }} wirklich dauerhaft gelöscht werden?"
+            },
+            "detail": {
+                "title": "Sprint"
+            },
+            "name": "Name",
+            "startDatetime": "Start Datetime",
+            "endDatetime": "End Datetime",
+            "velocity": "Velocity",
+            "issue": "Issue"
+        }
+    }
+}

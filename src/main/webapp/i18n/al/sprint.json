@@ -1,0 +1,27 @@
+
+{
+    "releaseVitalsApp": {
+        "sprint" : {
+            "home": {
+                "title": "Sprints",
+                "createLabel": "Krijo një të ri Sprint",
+                "createOrEditLabel": "Krijo ose përpuno një Sprint",
+                "search": "Kërko për Sprint"
+            },
+            "created": "Një Sprint i ri u krijua me identifikues {{ param }}",
+            "updated": "Një Sprint u përpunua me identifikues {{ param }}",
+            "deleted": "Një Sprint u fshi me identifikues {{ param }}",
+            "delete": {
+                "question": "Jeni i sigurtë që doni të fshini Sprint {{ id }}?"
+            },
+            "detail": {
+                "title": "Sprint"
+            },
+            "name": "Name",
+            "startDatetime": "Start Datetime",
+            "endDatetime": "End Datetime",
+            "velocity": "Velocity",
+            "issue": "Issue"
+        }
+    }
+}

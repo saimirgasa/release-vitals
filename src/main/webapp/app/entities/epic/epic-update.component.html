@@ -1,0 +1,71 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+            <h2 id="jhi-epic-heading" jhiTranslate="releaseVitalsApp.epic.home.createOrEditLabel">Create or edit a Epic</h2>
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+                <div class="form-group" [hidden]="!epic.id">
+                    <label for="id" jhiTranslate="global.field.id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id"
+                        [(ngModel)]="epic.id" readonly />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="releaseVitalsApp.epic.name" for="field_name">Name</label>
+                    <input type="text" class="form-control" name="name" id="field_name"
+                        [(ngModel)]="epic.name" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="releaseVitalsApp.epic.totalStoryPoints" for="field_totalStoryPoints">Total Story Points</label>
+                    <input type="number" class="form-control" name="totalStoryPoints" id="field_totalStoryPoints"
+                        [(ngModel)]="epic.totalStoryPoints" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="releaseVitalsApp.epic.storyPointsCompleted" for="field_storyPointsCompleted">Story Points Completed</label>
+                    <input type="number" class="form-control" name="storyPointsCompleted" id="field_storyPointsCompleted"
+                        [(ngModel)]="epic.storyPointsCompleted" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="releaseVitalsApp.epic.remainingStoryPoints" for="field_remainingStoryPoints">Remaining Story Points</label>
+                    <input type="number" class="form-control" name="remainingStoryPoints" id="field_remainingStoryPoints"
+                        [(ngModel)]="epic.remainingStoryPoints" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="releaseVitalsApp.epic.totalIssueCount" for="field_totalIssueCount">Total Issue Count</label>
+                    <input type="number" class="form-control" name="totalIssueCount" id="field_totalIssueCount"
+                        [(ngModel)]="epic.totalIssueCount" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="releaseVitalsApp.epic.percentageCompleted" for="field_percentageCompleted">Percentage Completed</label>
+                    <input type="number" class="form-control" name="percentageCompleted" id="field_percentageCompleted"
+                        [(ngModel)]="epic.percentageCompleted" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="releaseVitalsApp.epic.key" for="field_key">Key</label>
+                    <input type="text" class="form-control" name="key" id="field_key"
+                        [(ngModel)]="epic.key" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="releaseVitalsApp.epic.epicBrowserURL" for="field_epicBrowserURL">Epic Browser URL</label>
+                    <input type="text" class="form-control" name="epicBrowserURL" id="field_epicBrowserURL"
+                        [(ngModel)]="epic.epicBrowserURL" />
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="releaseVitalsApp.epic.project" for="field_project">Project</label>
+                    <select class="form-control" id="field_project" name="project" [(ngModel)]="epic.project" >
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="projectOption.id === epic.project?.id ? epic.project : projectOption" *ngFor="let projectOption of projects; trackBy: trackProjectById">{{projectOption.name}}</option>
+                    </select>
+                </div>
+            </div>
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
+                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+                </button>
+                <button type="submit" id="save-entity" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

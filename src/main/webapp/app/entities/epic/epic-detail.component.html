@@ -1,0 +1,61 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="epic">
+            <h2><span jhiTranslate="releaseVitalsApp.epic.detail.title">Epic</span> {{epic.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="releaseVitalsApp.epic.name">Name</span></dt>
+                <dd>
+                    <span>{{epic.name}}</span>
+                </dd>
+                <dt><span jhiTranslate="releaseVitalsApp.epic.totalStoryPoints">Total Story Points</span></dt>
+                <dd>
+                    <span>{{epic.totalStoryPoints}}</span>
+                </dd>
+                <dt><span jhiTranslate="releaseVitalsApp.epic.storyPointsCompleted">Story Points Completed</span></dt>
+                <dd>
+                    <span>{{epic.storyPointsCompleted}}</span>
+                </dd>
+                <dt><span jhiTranslate="releaseVitalsApp.epic.remainingStoryPoints">Remaining Story Points</span></dt>
+                <dd>
+                    <span>{{epic.remainingStoryPoints}}</span>
+                </dd>
+                <dt><span jhiTranslate="releaseVitalsApp.epic.totalIssueCount">Total Issue Count</span></dt>
+                <dd>
+                    <span>{{epic.totalIssueCount}}</span>
+                </dd>
+                <dt><span jhiTranslate="releaseVitalsApp.epic.percentageCompleted">Percentage Completed</span></dt>
+                <dd>
+                    <span>{{epic.percentageCompleted}}</span>
+                </dd>
+                <dt><span jhiTranslate="releaseVitalsApp.epic.key">Key</span></dt>
+                <dd>
+                    <span>{{epic.key}}</span>
+                </dd>
+                <dt><span jhiTranslate="releaseVitalsApp.epic.epicBrowserURL">Epic Browser URL</span></dt>
+                <dd>
+                    <span>{{epic.epicBrowserURL}}</span>
+                </dd>
+                <dt><span jhiTranslate="releaseVitalsApp.epic.project">Project</span></dt>
+                <dd>
+                    <div *ngIf="epic.project">
+                        <a [routerLink]="['/project', epic.project?.id, 'view']">{{epic.project?.id}}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/epic', epic.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

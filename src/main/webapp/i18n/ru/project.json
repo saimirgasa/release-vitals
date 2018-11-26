@@ -1,0 +1,28 @@
+
+{
+    "releaseVitalsApp": {
+        "project" : {
+            "home": {
+                "title": "Projects",
+                "createLabel": "Создать новый Project",
+                "createOrEditLabel": "Создать или отредактировать Project",
+                "search": "Найти Project"
+            },
+            "created": "Новый Project создан с идентификатором {{ param }}",
+            "updated": "Project обновлен с идентификатором {{ param }}",
+            "deleted": "Project удален с идентификатором {{ param }}",
+            "delete": {
+                "question": "Вы уверены что хотите удалить Project {{ id }}?"
+            },
+            "detail": {
+                "title": "Project"
+            },
+            "name": "Name",
+            "key": "Key",
+            "release": "Release",
+            "version": "Version",
+            "epic": "Epic",
+            "issue": "Issue"
+        }
+    }
+}

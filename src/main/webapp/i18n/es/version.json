@@ -1,0 +1,25 @@
+
+{
+    "releaseVitalsApp": {
+        "version" : {
+            "home": {
+                "title": "Versions",
+                "createLabel": "Crear nuevo Version",
+                "createOrEditLabel": "Crear o editar Version",
+                "search": "Search for Version"
+            },
+            "created": "Un nuevo Version ha sido creado con el identificador {{ param }}",
+            "updated": "Un Version ha sido actualizado con el identificador {{ param }}",
+            "deleted": "Un Version ha sido eliminado con el identificador {{ param }}",
+            "delete": {
+                "question": "¿Seguro que quiere eliminar Version {{ id }}?"
+            },
+            "detail": {
+                "title": "Version"
+            },
+            "name": "Name",
+            "project": "Project",
+            "issue": "Issue"
+        }
+    }
+}

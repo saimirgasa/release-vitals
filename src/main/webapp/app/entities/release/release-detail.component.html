@@ -1,0 +1,35 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="release">
+            <h2><span jhiTranslate="releaseVitalsApp.release.detail.title">Release</span> {{release.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="releaseVitalsApp.release.name">Name</span></dt>
+                <dd>
+                    <span>{{release.name}}</span>
+                </dd>
+                <dt><span jhiTranslate="releaseVitalsApp.release.startDate">Start Date</span></dt>
+                <dd>
+                    <span>{{release.startDate}}</span>
+                </dd>
+                <dt><span jhiTranslate="releaseVitalsApp.release.endDate">End Date</span></dt>
+                <dd>
+                    <span>{{release.endDate}}</span>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/release', release.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

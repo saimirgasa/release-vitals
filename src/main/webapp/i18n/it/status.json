@@ -1,0 +1,26 @@
+
+{
+    "releaseVitalsApp": {
+        "status" : {
+            "home": {
+                "title": "Statuses",
+                "createLabel": "Genera un nuovo Status",
+                "createOrEditLabel": "Genera o modifica un Status",
+                "search": "Cerca Status"
+            },
+            "created": "&Egrave; stato generato un nuovo Status con identificatore {{ param }}",
+            "updated": "&Egrave; stato aggiornato Status identificato da {{ param }}",
+            "deleted": "&Egrave; stato eliminato Status con identificatore {{ param }}",
+            "delete": {
+                "question": "Sei sicuro di volere eliminare Status {{ id }}?"
+            },
+            "detail": {
+                "title": "Status"
+            },
+            "fromStatus": "From Status",
+            "toStatus": "To Status",
+            "timeChaged": "Time Chaged",
+            "issue": "Issue"
+        }
+    }
+}

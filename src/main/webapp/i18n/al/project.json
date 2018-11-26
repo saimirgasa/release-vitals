@@ -1,0 +1,28 @@
+
+{
+    "releaseVitalsApp": {
+        "project" : {
+            "home": {
+                "title": "Projects",
+                "createLabel": "Krijo një të ri Project",
+                "createOrEditLabel": "Krijo ose përpuno një Project",
+                "search": "Kërko për Project"
+            },
+            "created": "Një Project i ri u krijua me identifikues {{ param }}",
+            "updated": "Një Project u përpunua me identifikues {{ param }}",
+            "deleted": "Një Project u fshi me identifikues {{ param }}",
+            "delete": {
+                "question": "Jeni i sigurtë që doni të fshini Project {{ id }}?"
+            },
+            "detail": {
+                "title": "Project"
+            },
+            "name": "Name",
+            "key": "Key",
+            "release": "Release",
+            "version": "Version",
+            "epic": "Epic",
+            "issue": "Issue"
+        }
+    }
+}

@@ -1,0 +1,39 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="version">
+            <h2><span jhiTranslate="releaseVitalsApp.version.detail.title">Version</span> {{version.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="releaseVitalsApp.version.name">Name</span></dt>
+                <dd>
+                    <span>{{version.name}}</span>
+                </dd>
+                <dt><span jhiTranslate="releaseVitalsApp.version.project">Project</span></dt>
+                <dd>
+                    <div *ngIf="version.project">
+                        <a [routerLink]="['/project', version.project?.id, 'view']">{{version.project?.id}}</a>
+                    </div>
+                </dd>
+                <dt><span jhiTranslate="releaseVitalsApp.version.issue">Issue</span></dt>
+                <dd>
+                    <div *ngIf="version.issue">
+                        <a [routerLink]="['/issue', version.issue?.id, 'view']">{{version.issue?.id}}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/version', version.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

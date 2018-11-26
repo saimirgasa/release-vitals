@@ -1,0 +1,26 @@
+
+{
+    "releaseVitalsApp": {
+        "release" : {
+            "home": {
+                "title": "Releases",
+                "createLabel": "Créer un nouveau Release",
+                "createOrEditLabel": "Créer ou éditer un Release",
+                "search": "Recherche pour Release"
+            },
+            "created": "Un nouveau Release a été créé avec l'identifiant {{ param }}",
+            "updated": "Le Release avec l'identifiant {{ param }} a été mis à jour",
+            "deleted": "Le Release avec l'identifiant {{ param }} a été supprimé",
+            "delete": {
+                "question": "Etes-vous certain de vouloir supprimer le Release {{ id }} ?"
+            },
+            "detail": {
+                "title": "Release"
+            },
+            "name": "Name",
+            "startDate": "Start Date",
+            "endDate": "End Date",
+            "project": "Project"
+        }
+    }
+}

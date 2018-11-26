@@ -1,0 +1,49 @@
+{
+    "name": "Project",
+    "fields": [
+        {
+            "fieldName": "name",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "key",
+            "fieldType": "String"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipName": "release",
+            "otherEntityName": "release",
+            "relationshipType": "many-to-one",
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipType": "one-to-many",
+            "relationshipName": "version",
+            "otherEntityName": "version",
+            "otherEntityRelationshipName": "project"
+        },
+        {
+            "relationshipType": "one-to-many",
+            "relationshipName": "epic",
+            "otherEntityName": "epic",
+            "otherEntityRelationshipName": "project"
+        },
+        {
+            "relationshipType": "one-to-many",
+            "relationshipName": "issue",
+            "otherEntityName": "issue",
+            "otherEntityRelationshipName": "project"
+        }
+    ],
+    "changelogDate": "20181123125649",
+    "javadoc": "entity Theme {\nname String,\ntotalIssueCount Integer\n}\n\nentity Feature {\nname String,\nkey String\n}",
+    "entityTableName": "project",
+    "dto": "no",
+    "pagination": "pagination",
+    "service": "serviceImpl",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*"
+}

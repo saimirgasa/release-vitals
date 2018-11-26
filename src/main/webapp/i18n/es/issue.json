@@ -1,0 +1,30 @@
+
+{
+    "releaseVitalsApp": {
+        "issue" : {
+            "home": {
+                "title": "Issues",
+                "createLabel": "Crear nuevo Issue",
+                "createOrEditLabel": "Crear o editar Issue",
+                "search": "Search for Issue"
+            },
+            "created": "Un nuevo Issue ha sido creado con el identificador {{ param }}",
+            "updated": "Un Issue ha sido actualizado con el identificador {{ param }}",
+            "deleted": "Un Issue ha sido eliminado con el identificador {{ param }}",
+            "delete": {
+                "question": "¿Seguro que quiere eliminar Issue {{ id }}?"
+            },
+            "detail": {
+                "title": "Issue"
+            },
+            "title": "Title",
+            "description": "Description",
+            "key": "Key",
+            "sprint": "Sprint",
+            "project": "Project",
+            "epic": "Epic",
+            "status": "Status",
+            "fixVersion": "Fix Version"
+        }
+    }
+}

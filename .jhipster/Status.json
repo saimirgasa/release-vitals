@@ -1,0 +1,34 @@
+{
+    "name": "Status",
+    "fields": [
+        {
+            "fieldName": "fromStatus",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "toStatus",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "timeChaged",
+            "fieldType": "Instant"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipName": "issue",
+            "otherEntityName": "issue",
+            "relationshipType": "many-to-one",
+            "otherEntityField": "id"
+        }
+    ],
+    "changelogDate": "20181123125653",
+    "entityTableName": "status",
+    "dto": "no",
+    "pagination": "pagination",
+    "service": "serviceImpl",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*"
+}

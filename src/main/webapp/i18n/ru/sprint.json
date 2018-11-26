@@ -1,0 +1,27 @@
+
+{
+    "releaseVitalsApp": {
+        "sprint" : {
+            "home": {
+                "title": "Sprints",
+                "createLabel": "Создать новый Sprint",
+                "createOrEditLabel": "Создать или отредактировать Sprint",
+                "search": "Найти Sprint"
+            },
+            "created": "Новый Sprint создан с идентификатором {{ param }}",
+            "updated": "Sprint обновлен с идентификатором {{ param }}",
+            "deleted": "Sprint удален с идентификатором {{ param }}",
+            "delete": {
+                "question": "Вы уверены что хотите удалить Sprint {{ id }}?"
+            },
+            "detail": {
+                "title": "Sprint"
+            },
+            "name": "Name",
+            "startDatetime": "Start Datetime",
+            "endDatetime": "End Datetime",
+            "velocity": "Velocity",
+            "issue": "Issue"
+        }
+    }
+}

@@ -1,0 +1,58 @@
+{
+    "name": "Issue",
+    "fields": [
+        {
+            "fieldName": "title",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "description",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "key",
+            "fieldType": "String"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipName": "sprint",
+            "otherEntityName": "sprint",
+            "relationshipType": "many-to-one",
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipName": "project",
+            "otherEntityName": "project",
+            "relationshipType": "many-to-one",
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipName": "epic",
+            "otherEntityName": "epic",
+            "relationshipType": "many-to-one",
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipType": "one-to-many",
+            "relationshipName": "status",
+            "otherEntityName": "status",
+            "otherEntityRelationshipName": "issue"
+        },
+        {
+            "relationshipType": "one-to-many",
+            "relationshipName": "fixVersion",
+            "otherEntityName": "version",
+            "otherEntityRelationshipName": "issue"
+        }
+    ],
+    "changelogDate": "20181123125652",
+    "entityTableName": "issue",
+    "dto": "no",
+    "pagination": "pagination",
+    "service": "serviceImpl",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*"
+}

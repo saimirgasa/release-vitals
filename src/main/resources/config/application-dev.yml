@@ -36,7 +36,7 @@ spring:
     datasource:
         type: com.zaxxer.hikari.HikariDataSource
         url: jdbc:postgresql://localhost:5432/ReleaseVitals
-        username: ReleaseVitals
+        username: release_vitals
         password:
         hikari:
             auto-commit: false
