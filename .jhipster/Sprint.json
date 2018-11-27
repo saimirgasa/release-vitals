@@ -29,7 +29,7 @@
     "changelogDate": "20181123125648",
     "entityTableName": "sprint",
     "dto": "no",
-    "pagination": "pagination",
+    "pagination": "infinite-scroll",
     "service": "serviceImpl",
     "jpaMetamodelFiltering": false,
     "fluentMethods": true,

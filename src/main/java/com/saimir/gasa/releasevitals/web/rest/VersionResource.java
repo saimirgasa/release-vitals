@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -92,7 +93,7 @@ public class VersionResource {
      */
     @GetMapping("/versions")
     @Timed
-    public ResponseEntity<List<Version>> getAllVersions(Pageable pageable) {
+    public ResponseEntity<List<Version>> getAllVersions(@PageableDefault(size = 99)Pageable pageable) {
         log.debug("REST request to get a page of Versions");
         Page<Version> page = versionService.findAll(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/versions");
@@ -137,7 +138,7 @@ public class VersionResource {
      */
     @GetMapping("/_search/versions")
     @Timed
-    public ResponseEntity<List<Version>> searchVersions(@RequestParam String query, Pageable pageable) {
+    public ResponseEntity<List<Version>> searchVersions(@RequestParam String query, @PageableDefault(size = 99)Pageable pageable) {
         log.debug("REST request to search for a page of Versions for query {}", query);
         Page<Version> page = versionService.search(query, pageable);
         HttpHeaders headers = PaginationUtil.generateSearchPaginationHttpHeaders(query, page, "/api/_search/versions");

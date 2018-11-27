@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -92,7 +93,7 @@ public class SprintResource {
      */
     @GetMapping("/sprints")
     @Timed
-    public ResponseEntity<List<Sprint>> getAllSprints(Pageable pageable) {
+    public ResponseEntity<List<Sprint>> getAllSprints(@PageableDefault(size = 99)Pageable pageable) {
         log.debug("REST request to get a page of Sprints");
         Page<Sprint> page = sprintService.findAll(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/sprints");
@@ -137,7 +138,7 @@ public class SprintResource {
      */
     @GetMapping("/_search/sprints")
     @Timed
-    public ResponseEntity<List<Sprint>> searchSprints(@RequestParam String query, Pageable pageable) {
+    public ResponseEntity<List<Sprint>> searchSprints(@RequestParam String query, @PageableDefault(size = 99)Pageable pageable) {
         log.debug("REST request to search for a page of Sprints for query {}", query);
         Page<Sprint> page = sprintService.search(query, pageable);
         HttpHeaders headers = PaginationUtil.generateSearchPaginationHttpHeaders(query, page, "/api/_search/sprints");

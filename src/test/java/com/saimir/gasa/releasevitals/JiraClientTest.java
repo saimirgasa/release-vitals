@@ -80,7 +80,7 @@ public class JiraClientTest {
             project.setVersions(versions);
 
             Epic epic = new Epic();
-            epic.setName("Resurface polishing");
+            epic.setName("Resurface theme");
             epic.setProject(project);
 
             returnedEpic = printEpicSummary(client, epic, 0);
@@ -171,16 +171,17 @@ public class JiraClientTest {
                                         JSONObject resolutionObj = fields.getJSONObject("resolution");
                                         String resolution = resolutionObj.getString("name");
                                         // check if the issue status and resolution is done
-                                        if ("Closed".equalsIgnoreCase(status) || "Resolved".equalsIgnoreCase(status) ||
-                                            "Done".equalsIgnoreCase(resolution) || "Fixed".equalsIgnoreCase(resolution)) {
+                                        if (("Closed".equalsIgnoreCase(status) || "Resolved".equalsIgnoreCase(status)) &&
+                                            ("Done".equalsIgnoreCase(resolution) || "Fixed".equalsIgnoreCase(resolution))) {
 
                                             epic.addToStoryPointsCompleted(estimate);
                                             System.out.println("#########################################");
+                                        } else {
+                                            epic.addToRemainingStoryPoints(estimate);
                                         }
                                     }
                                 }
                             }
-                            epic.addToRemainingStoryPoints(estimate);
                         } else {
                             // issues are not in the scope of the release
                             System.out.println(issue.getString("key") + " is not in the " + version.getName() + " release scope!");

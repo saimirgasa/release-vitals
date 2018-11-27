@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -56,7 +57,7 @@ public class VersionServiceImpl implements VersionService {
      */
     @Override
     @Transactional(readOnly = true)
-    public Page<Version> findAll(Pageable pageable) {
+    public Page<Version> findAll(@PageableDefault(size = 99)Pageable pageable) {
         log.debug("Request to get all Versions");
         return versionRepository.findAll(pageable);
     }
@@ -96,7 +97,7 @@ public class VersionServiceImpl implements VersionService {
      */
     @Override
     @Transactional(readOnly = true)
-    public Page<Version> search(String query, Pageable pageable) {
+    public Page<Version> search(String query, @PageableDefault(size = 99)Pageable pageable) {
         log.debug("Request to search for a page of Versions for query {}", query);
         return versionSearchRepository.search(queryStringQuery(query), pageable);    }
 }

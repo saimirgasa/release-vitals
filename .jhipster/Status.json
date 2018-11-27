@@ -25,7 +25,7 @@
     "changelogDate": "20181123125653",
     "entityTableName": "status",
     "dto": "no",
-    "pagination": "pagination",
+    "pagination": "infinite-scroll",
     "service": "serviceImpl",
     "jpaMetamodelFiltering": false,
     "fluentMethods": true,

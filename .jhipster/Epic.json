@@ -51,7 +51,7 @@
     "changelogDate": "20181123125651",
     "entityTableName": "epic",
     "dto": "no",
-    "pagination": "pagination",
+    "pagination": "infinite-scroll",
     "service": "serviceImpl",
     "jpaMetamodelFiltering": false,
     "fluentMethods": true,

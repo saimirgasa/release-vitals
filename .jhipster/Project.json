@@ -40,7 +40,7 @@
     "javadoc": "entity Theme {\nname String,\ntotalIssueCount Integer\n}\n\nentity Feature {\nname String,\nkey String\n}",
     "entityTableName": "project",
     "dto": "no",
-    "pagination": "pagination",
+    "pagination": "infinite-scroll",
     "service": "serviceImpl",
     "jpaMetamodelFiltering": false,
     "fluentMethods": true,

@@ -31,7 +31,7 @@
                     <label class="form-control-label" jhiTranslate="releaseVitalsApp.status.issue" for="field_issue">Issue</label>
                     <select class="form-control" id="field_issue" name="issue" [(ngModel)]="status.issue" >
                         <option [ngValue]="null"></option>
-                        <option [ngValue]="issueOption.id === status.issue?.id ? status.issue : issueOption" *ngFor="let issueOption of issues; trackBy: trackIssueById">{{issueOption.id}}</option>
+                        <option [ngValue]="issueOption.id === status.issue?.id ? status.issue : issueOption" *ngFor="let issueOption of issues; trackBy: trackIssueById">{{issueOption.title}}</option>
                     </select>
                 </div>
             </div>

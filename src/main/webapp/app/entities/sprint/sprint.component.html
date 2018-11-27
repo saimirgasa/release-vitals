@@ -28,7 +28,7 @@
     <div class="table-responsive" *ngIf="sprints">
         <table class="table table-striped">
             <thead>
-            <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
+            <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="reset.bind(this)">
             <th jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="name"><span jhiTranslate="releaseVitalsApp.sprint.name">Name</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="startDatetime"><span jhiTranslate="releaseVitalsApp.sprint.startDatetime">Start Datetime</span> <fa-icon [icon]="'sort'"></fa-icon></th>
@@ -37,9 +37,9 @@
             <th></th>
             </tr>
             </thead>
-            <tbody>
+            <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']" [infiniteScrollDistance]="0">
             <tr *ngFor="let sprint of sprints ;trackBy: trackId">
-                <td><a [routerLink]="['/sprint', sprint.id, 'view' ]">{{sprint.id}}</a></td>
+                <td><a [routerLink]="['/sprint', sprint.id, 'view' ]">{{sprint.name}}</a></td>
                 <td>{{sprint.name}}</td>
                 <td>{{sprint.startDatetime | date:'medium'}}</td>
                 <td>{{sprint.endDatetime | date:'medium'}}</td>
@@ -71,13 +71,5 @@
             </tr>
             </tbody>
         </table>
-    </div>
-    <div *ngIf="sprints && sprints.length">
-        <div class="row justify-content-center">
-            <jhi-item-count [page]="page" [total]="queryCount" [maxSize]="5" [itemsPerPage]="itemsPerPage"></jhi-item-count>
-        </div>
-        <div class="row justify-content-center">
-            <ngb-pagination [collectionSize]="totalItems" [(page)]="page" [pageSize]="itemsPerPage" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage(page)"></ngb-pagination>
-        </div>
     </div>
 </div>

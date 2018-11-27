@@ -28,7 +28,7 @@
     <div class="table-responsive" *ngIf="issues">
         <table class="table table-striped">
             <thead>
-            <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
+            <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="reset.bind(this)">
             <th jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="title"><span jhiTranslate="releaseVitalsApp.issue.title">Title</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="description"><span jhiTranslate="releaseVitalsApp.issue.description">Description</span> <fa-icon [icon]="'sort'"></fa-icon></th>
@@ -39,7 +39,7 @@
             <th></th>
             </tr>
             </thead>
-            <tbody>
+            <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']" [infiniteScrollDistance]="0">
             <tr *ngFor="let issue of issues ;trackBy: trackId">
                 <td><a [routerLink]="['/issue', issue.id, 'view' ]">{{issue.id}}</a></td>
                 <td>{{issue.title}}</td>
@@ -47,17 +47,17 @@
                 <td>{{issue.key}}</td>
                 <td>
                     <div *ngIf="issue.sprint">
-                        <a [routerLink]="['../sprint', issue.sprint?.id, 'view' ]" >{{issue.sprint?.id}}</a>
+                        <a [routerLink]="['../sprint', issue.sprint?.id, 'view' ]" >{{issue.sprint?.name}}</a>
                     </div>
                 </td>
                 <td>
                     <div *ngIf="issue.project">
-                        <a [routerLink]="['../project', issue.project?.id, 'view' ]" >{{issue.project?.id}}</a>
+                        <a [routerLink]="['../project', issue.project?.id, 'view' ]" >{{issue.project?.name}}</a>
                     </div>
                 </td>
                 <td>
                     <div *ngIf="issue.epic">
-                        <a [routerLink]="['../epic', issue.epic?.id, 'view' ]" >{{issue.epic?.id}}</a>
+                        <a [routerLink]="['../epic', issue.epic?.id, 'view' ]" >{{issue.epic?.name}}</a>
                     </div>
                 </td>
                 <td class="text-right">
@@ -87,13 +87,5 @@
             </tr>
             </tbody>
         </table>
-    </div>
-    <div *ngIf="issues && issues.length">
-        <div class="row justify-content-center">
-            <jhi-item-count [page]="page" [total]="queryCount" [maxSize]="5" [itemsPerPage]="itemsPerPage"></jhi-item-count>
-        </div>
-        <div class="row justify-content-center">
-            <ngb-pagination [collectionSize]="totalItems" [(page)]="page" [pageSize]="itemsPerPage" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage(page)"></ngb-pagination>
-        </div>
     </div>
 </div>

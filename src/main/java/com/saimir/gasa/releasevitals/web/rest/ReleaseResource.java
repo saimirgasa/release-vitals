@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -92,7 +93,7 @@ public class ReleaseResource {
      */
     @GetMapping("/releases")
     @Timed
-    public ResponseEntity<List<Release>> getAllReleases(Pageable pageable) {
+    public ResponseEntity<List<Release>> getAllReleases(@PageableDefault(size = 99)Pageable pageable) {
         log.debug("REST request to get a page of Releases");
         Page<Release> page = releaseService.findAll(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/releases");
@@ -137,7 +138,7 @@ public class ReleaseResource {
      */
     @GetMapping("/_search/releases")
     @Timed
-    public ResponseEntity<List<Release>> searchReleases(@RequestParam String query, Pageable pageable) {
+    public ResponseEntity<List<Release>> searchReleases(@RequestParam String query, @PageableDefault(size = 99)Pageable pageable) {
         log.debug("REST request to search for a page of Releases for query {}", query);
         Page<Release> page = releaseService.search(query, pageable);
         HttpHeaders headers = PaginationUtil.generateSearchPaginationHttpHeaders(query, page, "/api/_search/releases");

@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/http';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { JhiEventManager, JhiParseLinks, JhiAlertService } from 'ng-jhipster';
 
@@ -15,38 +15,34 @@ import { IssueService } from './issue.service';
     templateUrl: './issue.component.html'
 })
 export class IssueComponent implements OnInit, OnDestroy {
-    currentAccount: any;
     issues: IIssue[];
-    error: any;
-    success: any;
+    currentAccount: any;
     eventSubscriber: Subscription;
-    currentSearch: string;
-    routeData: any;
+    itemsPerPage: number;
     links: any;
-    totalItems: any;
-    queryCount: any;
-    itemsPerPage: any;
     page: any;
     predicate: any;
-    previousPage: any;
+    queryCount: any;
     reverse: any;
+    totalItems: number;
+    currentSearch: string;
 
     constructor(
         private issueService: IssueService,
-        private parseLinks: JhiParseLinks,
         private jhiAlertService: JhiAlertService,
-        private principal: Principal,
+        private eventManager: JhiEventManager,
+        private parseLinks: JhiParseLinks,
         private activatedRoute: ActivatedRoute,
-        private router: Router,
-        private eventManager: JhiEventManager
+        private principal: Principal
     ) {
+        this.issues = [];
         this.itemsPerPage = ITEMS_PER_PAGE;
-        this.routeData = this.activatedRoute.data.subscribe(data => {
-            this.page = data.pagingParams.page;
-            this.previousPage = data.pagingParams.page;
-            this.reverse = data.pagingParams.ascending;
-            this.predicate = data.pagingParams.predicate;
-        });
+        this.page = 0;
+        this.links = {
+            last: 0
+        };
+        this.predicate = 'id';
+        this.reverse = true;
         this.currentSearch =
             this.activatedRoute.snapshot && this.activatedRoute.snapshot.params['search']
                 ? this.activatedRoute.snapshot.params['search']
@@ -57,8 +53,8 @@ export class IssueComponent implements OnInit, OnDestroy {
         if (this.currentSearch) {
             this.issueService
                 .search({
-                    page: this.page - 1,
                     query: this.currentSearch,
+                    page: this.page,
                     size: this.itemsPerPage,
                     sort: this.sort()
                 })
@@ -70,7 +66,7 @@ export class IssueComponent implements OnInit, OnDestroy {
         }
         this.issueService
             .query({
-                page: this.page - 1,
+                page: this.page,
                 size: this.itemsPerPage,
                 sort: this.sort()
             })
@@ -80,35 +76,26 @@ export class IssueComponent implements OnInit, OnDestroy {
             );
     }
 
-    loadPage(page: number) {
-        if (page !== this.previousPage) {
-            this.previousPage = page;
-            this.transition();
-        }
+    reset() {
+        this.page = 0;
+        this.issues = [];
+        this.loadAll();
     }
 
-    transition() {
-        this.router.navigate(['/issue'], {
-            queryParams: {
-                page: this.page,
-                size: this.itemsPerPage,
-                search: this.currentSearch,
-                sort: this.predicate + ',' + (this.reverse ? 'asc' : 'desc')
-            }
-        });
+    loadPage(page) {
+        this.page = page;
         this.loadAll();
     }
 
     clear() {
+        this.issues = [];
+        this.links = {
+            last: 0
+        };
         this.page = 0;
+        this.predicate = 'id';
+        this.reverse = true;
         this.currentSearch = '';
-        this.router.navigate([
-            '/issue',
-            {
-                page: this.page,
-                sort: this.predicate + ',' + (this.reverse ? 'asc' : 'desc')
-            }
-        ]);
         this.loadAll();
     }
 
@@ -116,16 +103,14 @@ export class IssueComponent implements OnInit, OnDestroy {
         if (!query) {
             return this.clear();
         }
+        this.issues = [];
+        this.links = {
+            last: 0
+        };
         this.page = 0;
+        this.predicate = '_score';
+        this.reverse = false;
         this.currentSearch = query;
-        this.router.navigate([
-            '/issue',
-            {
-                search: this.currentSearch,
-                page: this.page,
-                sort: this.predicate + ',' + (this.reverse ? 'asc' : 'desc')
-            }
-        ]);
         this.loadAll();
     }
 
@@ -146,7 +131,7 @@ export class IssueComponent implements OnInit, OnDestroy {
     }
 
     registerChangeInIssues() {
-        this.eventSubscriber = this.eventManager.subscribe('issueListModification', response => this.loadAll());
+        this.eventSubscriber = this.eventManager.subscribe('issueListModification', response => this.reset());
     }
 
     sort() {
@@ -160,8 +145,9 @@ export class IssueComponent implements OnInit, OnDestroy {
     private paginateIssues(data: IIssue[], headers: HttpHeaders) {
         this.links = this.parseLinks.parse(headers.get('link'));
         this.totalItems = parseInt(headers.get('X-Total-Count'), 10);
-        this.queryCount = this.totalItems;
-        this.issues = data;
+        for (let i = 0; i < data.length; i++) {
+            this.issues.push(data[i]);
+        }
     }
 
     private onError(errorMessage: string) {

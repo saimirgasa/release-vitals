@@ -94,7 +94,7 @@ public class JiraServiceImpl implements JiraService {
     }
 
     private Epic epicSummary(Epic epic, int startIndex) throws URISyntaxException, IOException, JSONException, ParseException {
-        IssueRestClient issueRestClient = jiraRestClient.getIssueClient();
+        IssueRestClient issueRestClient = this.jiraRestClient.getIssueClient();
 
 //        String encodedEpicLink = URLEncoder.encode("\"Epic Link\"=" + "\"" + epicName + "\" AND status not in (Closed,Resolved)", "UTF-8");
 
@@ -161,16 +161,17 @@ public class JiraServiceImpl implements JiraService {
                                         JSONObject resolutionObj = fields.getJSONObject("resolution");
                                         String resolution = resolutionObj.getString("name");
                                         // check if the issue status and resolution is done
-                                        if ("Closed".equalsIgnoreCase(status) || "Resolved".equalsIgnoreCase(status) ||
-                                            "Done".equalsIgnoreCase(resolution) || "Fixed".equalsIgnoreCase(resolution)) {
+                                        if (("Closed".equalsIgnoreCase(status) || "Resolved".equalsIgnoreCase(status)) &&
+                                            ("Done".equalsIgnoreCase(resolution) || "Fixed".equalsIgnoreCase(resolution))) {
 
                                             epic.addToStoryPointsCompleted(estimate);
                                             System.out.println("#########################################");
+                                        } else {
+                                            epic.addToRemainingStoryPoints(estimate);
                                         }
                                     }
                                 }
                             }
-                            epic.addToRemainingStoryPoints(estimate);
                         } else {
                             // issues are not in the scope of the release
                             System.out.println(issue.getString("key") + " is not in the " + version.getName() + " release scope!");

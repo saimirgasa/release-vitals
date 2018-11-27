@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -56,7 +57,7 @@ public class ProjectServiceImpl implements ProjectService {
      */
     @Override
     @Transactional(readOnly = true)
-    public Page<Project> findAll(Pageable pageable) {
+    public Page<Project> findAll(@PageableDefault(size = 99)Pageable pageable) {
         log.debug("Request to get all Projects");
         return projectRepository.findAll(pageable);
     }
@@ -96,7 +97,7 @@ public class ProjectServiceImpl implements ProjectService {
      */
     @Override
     @Transactional(readOnly = true)
-    public Page<Project> search(String query, Pageable pageable) {
+    public Page<Project> search(String query, @PageableDefault(size = 99)Pageable pageable) {
         log.debug("Request to search for a page of Projects for query {}", query);
         return projectSearchRepository.search(queryStringQuery(query), pageable);    }
 }

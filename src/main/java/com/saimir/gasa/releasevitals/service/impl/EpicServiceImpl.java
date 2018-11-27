@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -56,7 +57,7 @@ public class EpicServiceImpl implements EpicService {
      */
     @Override
     @Transactional(readOnly = true)
-    public Page<Epic> findAll(Pageable pageable) {
+    public Page<Epic> findAll(@PageableDefault(size = 99)Pageable pageable) {
         log.debug("Request to get all Epics");
         return epicRepository.findAll(pageable);
     }
@@ -96,7 +97,7 @@ public class EpicServiceImpl implements EpicService {
      */
     @Override
     @Transactional(readOnly = true)
-    public Page<Epic> search(String query, Pageable pageable) {
+    public Page<Epic> search(String query, @PageableDefault(size = 99)Pageable pageable) {
         log.debug("Request to search for a page of Epics for query {}", query);
         return epicSearchRepository.search(queryStringQuery(query), pageable);    }
 }

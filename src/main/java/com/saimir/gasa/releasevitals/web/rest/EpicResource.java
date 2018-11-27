@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -97,7 +98,7 @@ public class EpicResource {
      */
     @GetMapping("/epics")
     @Timed
-    public ResponseEntity<List<Epic>> getAllEpics(Pageable pageable) {
+    public ResponseEntity<List<Epic>> getAllEpics(@PageableDefault(size = 99)Pageable pageable) {
         log.debug("REST request to get a page of Epics");
         Page<Epic> page = epicService.findAll(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/epics");
@@ -142,7 +143,7 @@ public class EpicResource {
      */
     @GetMapping("/_search/epics")
     @Timed
-    public ResponseEntity<List<Epic>> searchEpics(@RequestParam String query, Pageable pageable) {
+    public ResponseEntity<List<Epic>> searchEpics(@RequestParam String query, @PageableDefault(size = 99)Pageable pageable) {
         log.debug("REST request to search for a page of Epics for query {}", query);
         Page<Epic> page = epicService.search(query, pageable);
         HttpHeaders headers = PaginationUtil.generateSearchPaginationHttpHeaders(query, page, "/api/_search/epics");
