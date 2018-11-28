@@ -1,0 +1,127 @@
+/**
+*  Release Vitals
+*  @author Saimir Gasa
+*/
+entity Release {
+	name String,
+    startDate Instant,
+    endDate Instant
+}
+
+entity Sprint {
+	name String,
+    startDatetime Instant,
+    endDatetime Instant,
+    velocity Long
+}
+/*
+*entity Theme {
+*	name String,
+*    totalIssueCount Integer
+*}
+*
+*entity Feature {
+*	name String,
+*    key String
+*}
+*/
+entity Project {
+	name String,
+    key String
+}
+
+entity Version {
+	name String
+}
+
+entity Epic {
+	name String,
+    totalStoryPoints Double,
+    storyPointsCompleted Double,
+    remainingStoryPoints Double,
+    totalIssueCount Integer,
+    percentageCompleted Double,
+    key String,
+    epicBrowserURL String
+}
+
+entity Issue {
+	title String,
+	description String,
+    key String
+}
+
+entity Status {
+	fromStatus String,
+    toStatus String,
+    timeChaged Instant
+}
+
+enum Language {
+    FRENCH, ENGLISH, SPANISH, GERMAN
+}
+/*
+*relationship OneToMany {
+*	Release{theme} to Theme
+*}
+*
+*
+*relationship OneToMany {
+*	Release{sprint} to Sprint
+*}
+*/
+
+relationship OneToMany {
+	Release{project} to Project
+}
+/*
+*relationship OneToMany {
+*	Theme{feature} to Feature
+*}
+*/
+
+relationship OneToMany {
+	Sprint{issue} to Issue
+}
+
+relationship ManyToMany {
+	Project{version} to Version
+}
+
+relationship ManyToMany {
+	Epic{project} to Project
+}
+
+relationship OneToMany {
+	Project{issue} to Issue
+}
+/*
+*relationship OneToMany {
+*	Feature{epic} to Epic
+*}
+*
+*relationship OneToMany {
+*	Feature{issue} to Issue
+*}
+*/
+
+relationship OneToMany {
+	Epic{unestimatedIssue} to Issue
+}
+
+relationship OneToMany {
+	Issue{status} to Status
+    Issue{fixVersion} to Version
+}
+
+// Set pagination options
+paginate Release, Sprint, Epic, Project, Issue, Status, Version with pagination
+
+// Use Data Transfert Objects (DTO)
+// dto * with mapstruct
+
+// Set service options to all except few
+service all with serviceImpl
+
+// Set an angular suffix
+// angularSuffix * with mySuffix

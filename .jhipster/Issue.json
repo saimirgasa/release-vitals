@@ -49,7 +49,7 @@
     "changelogDate": "20181123125652",
     "entityTableName": "issue",
     "dto": "no",
-    "pagination": "infinite-scroll",
+    "pagination": "pagination",
     "service": "serviceImpl",
     "jpaMetamodelFiltering": false,
     "fluentMethods": true,

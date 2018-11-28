@@ -28,7 +28,13 @@ public interface EpicService {
      */
     Page<Epic> findAll(Pageable pageable);
 
-
+    /**
+     * Get all the Epic with eager load of many-to-many relationships.
+     *
+     * @return the list of entities
+     */
+    Page<Epic> findAllWithEagerRelationships(Pageable pageable);
+    
     /**
      * Get the "id" epic.
      *

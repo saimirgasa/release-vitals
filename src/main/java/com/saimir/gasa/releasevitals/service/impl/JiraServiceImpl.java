@@ -20,8 +20,10 @@ import com.atlassian.util.concurrent.Promise;
 import com.google.common.io.CharStreams;
 import com.saimir.gasa.releasevitals.domain.Epic;
 import com.saimir.gasa.releasevitals.domain.Issue;
+import com.saimir.gasa.releasevitals.domain.Project;
 import com.saimir.gasa.releasevitals.domain.Version;
 import com.saimir.gasa.releasevitals.repository.EpicRepository;
+import com.saimir.gasa.releasevitals.repository.IssueRepository;
 import com.saimir.gasa.releasevitals.repository.search.EpicSearchRepository;
 import com.saimir.gasa.releasevitals.service.JiraService;
 
@@ -45,12 +47,15 @@ public class JiraServiceImpl implements JiraService {
 
     private final EpicRepository epicRepository;
 
+    private final IssueRepository issueRepository;
+
     private final EpicSearchRepository epicSearchRepository;
 
     private final JiraRestClient jiraRestClient;
 
-    public JiraServiceImpl(EpicRepository epicRepository, EpicSearchRepository epicSearchRepository) {
+    public JiraServiceImpl(EpicRepository epicRepository, IssueRepository issueRepository, EpicSearchRepository epicSearchRepository) {
         this.epicRepository = epicRepository;
+        this.issueRepository = issueRepository;
         this.epicSearchRepository = epicSearchRepository;
         this.jiraRestClient = new AsynchronousJiraRestClientFactory()
             .createWithBasicHttpAuthentication(URI.create(JIRA_URL), JIRA_ADMIN_USERNAME, JIRA_ADMIN_PASSWORD);
@@ -96,8 +101,6 @@ public class JiraServiceImpl implements JiraService {
     private Epic epicSummary(Epic epic, int startIndex) throws URISyntaxException, IOException, JSONException, ParseException {
         IssueRestClient issueRestClient = this.jiraRestClient.getIssueClient();
 
-//        String encodedEpicLink = URLEncoder.encode("\"Epic Link\"=" + "\"" + epicName + "\" AND status not in (Closed,Resolved)", "UTF-8");
-
         String encodedEpicLink = URLEncoder.encode("\"Epic Link\"=" + "\"" + epic.getName() + "\"", "UTF-8");
 
         URI epicURI = new URI(JIRA_URL + "rest/api/2/search?startAt=" + startIndex + "&jql=" + encodedEpicLink + "&fields=customfield_10242,fixVersions,project,customfield_10246,status,resolutiondate,resolution");
@@ -106,7 +109,7 @@ public class JiraServiceImpl implements JiraService {
         Promise<InputStream> attachmentPromise = issueRestClient.getAttachment(epicURI);
         InputStream attachments = attachmentPromise.claim();
 
-        String text = null;
+        String text;
         boolean getNextPageOfResults = false;
         try (final Reader reader = new InputStreamReader(attachments)) {
             text = CharStreams.toString(reader);
@@ -118,7 +121,6 @@ public class JiraServiceImpl implements JiraService {
             }
             JSONArray issues = object.getJSONArray("issues");
             // iterate over the issues array
-            System.out.println("#########################################");
             for (int i = 0; i < issues.length(); i++) {
                 JSONObject issue = issues.getJSONObject(i);
                 JSONObject fields = issue.getJSONObject("fields");
@@ -127,31 +129,25 @@ public class JiraServiceImpl implements JiraService {
                 for (int j = 0; j < fixVersions.length(); j++) {
                     JSONObject statusObj = fields.getJSONObject("status");
                     String status = statusObj.getString("name");
-                    System.out.println("Issue " + issue.getString("key") + " has fixVersion of: " + fixVersions.getJSONObject(j).getString("name"));
-                    for (Version version : epic.getProject().getVersions()) {
-                        System.out.println("Issue: " + issue.getString("key") +  " has Project version of: " + version.getName());
-                        // check if the issue has the fix version set to the same value as the project one
-                        if (version.getName().equalsIgnoreCase(fixVersions.getJSONObject(j).getString("name"))) {
-                            double estimate = 0;
-                            if (fields.isNull("customfield_10242")) {
-                                Issue jIssue = new Issue();
-                                jIssue.setKey(issue.getString("key"));
-                                epic.addUnestimatedIssue(jIssue);
-                            } else {
-                                estimate = Double.valueOf(fields.getString("customfield_10242"));
-                            }
+                    for (Project project : epic.getProjects()) {
+                        for (Version version : project.getVersions()) {
+                            // check if the issue has the fix version set to the same value as the project one
+                            if (version.getName().equalsIgnoreCase(fixVersions.getJSONObject(j).getString("name"))) {
+                                JSONObject projectObj = fields.getJSONObject("project");
+                                String projectKey = projectObj.getString("key");
+                                if (project.getKey().equalsIgnoreCase(projectKey)) {
+                                    double estimate = 0;
+                                    if (fields.isNull("customfield_10242")) {
+                                        Issue jIssue = new Issue();
+                                        jIssue.setKey(issue.getString("key"));
+                                        jIssue.setProject(project);
+                                        jIssue.setEpic(epic);
+                                        epic.addUnestimatedIssue(issueRepository.save(jIssue));
+                                    } else {
+                                        estimate = Double.valueOf(fields.getString("customfield_10242"));
+                                    }
 
-                            if (!fields.isNull("resolutiondate")) {
-                                // 2018-11-15T11:51:43.000+0100
-                                String resolutionDateString = fields.getString("resolutiondate");
-                                // yyyy-MM-dd'T'HH:mm:ss.SSSZ
-                                Date date = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ").parse(resolutionDateString);
-                                Instant resolutionInstant = date.toInstant();
-
-                                // check if the issue is resolved after the release start date and before the end date
-                                if (epic.getProject().getRelease().getEndDate().isAfter(resolutionInstant) &&
-                                    epic.getProject().getRelease().getStartDate().isBefore(resolutionInstant)) {
-
+                                    System.out.println(issue.getString("key"));
                                     // add to total story points
                                     epic.addToTotalStoryPoints(estimate);
                                     // add to total issue count
@@ -160,21 +156,32 @@ public class JiraServiceImpl implements JiraService {
                                     if (!fields.isNull("resolution")) {
                                         JSONObject resolutionObj = fields.getJSONObject("resolution");
                                         String resolution = resolutionObj.getString("name");
-                                        // check if the issue status and resolution is done
-                                        if (("Closed".equalsIgnoreCase(status) || "Resolved".equalsIgnoreCase(status)) &&
-                                            ("Done".equalsIgnoreCase(resolution) || "Fixed".equalsIgnoreCase(resolution))) {
 
-                                            epic.addToStoryPointsCompleted(estimate);
-                                            System.out.println("#########################################");
-                                        } else {
-                                            epic.addToRemainingStoryPoints(estimate);
+                                        if (!"Duplicate".equalsIgnoreCase(resolution) && !"Obsolete".equalsIgnoreCase(resolution) &&
+                                            !"Not an issue".equalsIgnoreCase(resolution)) {
+
+                                            // 2018-11-15T11:51:43.000+0100
+                                            String resolutionDateString = fields.getString("resolutiondate");
+                                            // yyyy-MM-dd'T'HH:mm:ss.SSSZ
+                                            Date date = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ").parse(resolutionDateString);
+                                            Instant resolutionInstant = date.toInstant();
+
+                                            // check if the issue is resolved after the release start date and before the end date
+                                            if (project.getRelease().getEndDate().isAfter(resolutionInstant) &&
+                                                project.getRelease().getStartDate().isBefore(resolutionInstant)) {
+
+                                                if (("Closed".equalsIgnoreCase(status) || "Resolved".equalsIgnoreCase(status)) &&
+                                                    ("Done".equalsIgnoreCase(resolution) || "Fixed".equalsIgnoreCase(resolution))) {
+
+                                                    epic.addToStoryPointsCompleted(estimate);
+                                                }
+                                            }
                                         }
+                                    } else {
+                                        epic.addToRemainingStoryPoints(estimate);
                                     }
                                 }
                             }
-                        } else {
-                            // issues are not in the scope of the release
-                            System.out.println(issue.getString("key") + " is not in the " + version.getName() + " release scope!");
                         }
                     }
                 }

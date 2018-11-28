@@ -57,31 +57,38 @@ public class JiraClientTest {
             // print transition times for given epic
 //        printIssueTransitionTimes(client);
 
-            // print Epic summary
-            Set<Version> versions = new HashSet<>();
-            Version version = new Version();
-            version.setName("6.0");
-            versions.add(version);
+            // set the release
+            Release release = createRelease();
 
-            Release release = new Release();
-            release.setName("Magnolia 6.0 Release");
-            // 2018-11-15T11:51:43.000+0100
-            Date date = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ").parse("2018-06-25T00:00:00.000+0100");
-            Instant instant = date.toInstant();
-            release.setStartDate(instant);
-            date = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ").parse("2018-11-30T23:59:59.999+0100");
-            instant = date.toInstant();
-            release.setEndDate(instant);
+            // set the projects
+            Set<Project> projects = new HashSet<>();
 
-            Project project = new Project();
-            project.setName("Magnolia UI");
-            project.setKey("MGNLUI");
-            project.setRelease(release);
-            project.setVersions(versions);
+            projects.add(createProject("Magnolia UI", "MGNLUI", release, createVersions("6.0")));
+            projects.add(createProject("Magnolia Enterprise Edition", "MGNLEE", release, createVersions("6.0")));
+            projects.add(createProject("Magnolia Community Edition", "MGNLCE", release, createVersions("6.0")));
+            projects.add(createProject("Content Tags", "CONTTAGS", release, createVersions("1.2")));
+            projects.add(createProject("Magnolia", "MAGNOLIA", release, createVersions("6.0")));
+            projects.add(createProject("Magnolia Categorization Module", "MGNLCAT", release, createVersions("2.6.1")));
+            projects.add(createProject("Magnolia Demo Projects", "MGNLDEMO", release, createVersions("1.4")));
+            projects.add(createProject("Magnolia Google Sitemap Module", "MGNLGS", release, createVersions("2.5.1")));
+            projects.add(createProject("Magnolia Icons", "MGNLICONS", release, createVersions("20")));
+            projects.add(createProject("Magnolia License", "MGNLLIC", release, createVersions("1.6.2")));
+            projects.add(createProject("Periscope", "MGNLPER", release, createVersions("1.0")));
+            projects.add(createProject("Magnolia Public User Registration", "MGNLPUR", release, createVersions("2.7.1")));
+            projects.add(createProject("Magnolia Resources Module", "MGNLRES", release, createVersions("2.6.3")));
+            projects.add(createProject("Magnolia RSS Aggregator Module", "MGNLRSSAGG", release, createVersions("2.6.1")));
+            projects.add(createProject("Marketing Tags Manager", "MGNLTAGS", release, createVersions("1.4.1")));
+            projects.add(createProject("Magnolia Templating Samples", "MGNLTPLSMPL", release, createVersions("6.0")));
+            projects.add(createProject("Magnolia CLI npm Module", "NPMCLI", release, createVersions("3.0.4")));
+            projects.add(createProject("Magnolia Content Editor", "CONTEDIT", release, createVersions("1.3")));
+            projects.add(createProject("Magnolia DAM Module", "MGNLDAM", release, createVersions("2.5")));
+            projects.add(createProject("Magnolia Pages Module", "PAGES", release, createVersions("6.0")));
+            projects.add(createProject("Magnolia Personalization", "MGNLPN", release, createVersions("1.7")));
+            projects.add(createProject("Magnolia Personalization", "MGNLPN", release, createVersions("1.6.1")));
 
             Epic epic = new Epic();
-            epic.setName("Resurface theme");
-            epic.setProject(project);
+            epic.setName("6.0 requisite");
+            epic.setProjects(projects);
 
             returnedEpic = printEpicSummary(client, epic, 0);
 
@@ -106,8 +113,6 @@ public class JiraClientTest {
     private static Epic printEpicSummary(JiraRestClient client, Epic epic, int startIndex) throws URISyntaxException, IOException, JSONException, ParseException {
         IssueRestClient issueRestClient = client.getIssueClient();
 
-//        String encodedEpicLink = URLEncoder.encode("\"Epic Link\"=" + "\"" + epicName + "\" AND status not in (Closed,Resolved)", "UTF-8");
-
         String encodedEpicLink = URLEncoder.encode("\"Epic Link\"=" + "\"" + epic.getName() + "\"", "UTF-8");
 
         URI epicURI = new URI(JIRA_URL + "rest/api/2/search?startAt=" + startIndex + "&jql=" + encodedEpicLink + "&fields=customfield_10242,fixVersions,project,customfield_10246,status,resolutiondate,resolution");
@@ -116,7 +121,7 @@ public class JiraClientTest {
         Promise<InputStream> attachmentPromise = issueRestClient.getAttachment(epicURI);
         InputStream attachments = attachmentPromise.claim();
 
-        String text = null;
+        String text;
         boolean getNextPageOfResults = false;
         try (final Reader reader = new InputStreamReader(attachments)) {
             text = CharStreams.toString(reader);
@@ -128,7 +133,6 @@ public class JiraClientTest {
             }
             JSONArray issues = object.getJSONArray("issues");
             // iterate over the issues array
-            System.out.println("#########################################");
             for (int i = 0; i < issues.length(); i++) {
                 JSONObject issue = issues.getJSONObject(i);
                 JSONObject fields = issue.getJSONObject("fields");
@@ -137,31 +141,25 @@ public class JiraClientTest {
                 for (int j = 0; j < fixVersions.length(); j++) {
                     JSONObject statusObj = fields.getJSONObject("status");
                     String status = statusObj.getString("name");
-                    System.out.println("Issue " + issue.getString("key") + " has fixVersion of: " + fixVersions.getJSONObject(j).getString("name"));
-                    for (Version version : epic.getProject().getVersions()) {
-                        System.out.println("Issue: " + issue.getString("key") +  " has Project version of: " + version.getName());
-                        // check if the issue has the fix version set to the same value as the project one
-                        if (version.getName().equalsIgnoreCase(fixVersions.getJSONObject(j).getString("name"))) {
-                            double estimate = 0;
-                            if (fields.isNull("customfield_10242")) {
-                                Issue jIssue = new Issue();
-                                jIssue.setKey(issue.getString("key"));
-                                epic.addUnestimatedIssue(jIssue);
-                            } else {
-                                estimate = Double.valueOf(fields.getString("customfield_10242"));
-                            }
+                    for (Project project : epic.getProjects()) {
+                        for (Version version : project.getVersions()) {
+                            // check if the issue has the fix version set to the same value as the project one
+                            if (version.getName().equalsIgnoreCase(fixVersions.getJSONObject(j).getString("name"))) {
+                                JSONObject projectObj = fields.getJSONObject("project");
+                                String projectKey = projectObj.getString("key");
+                                if (project.getKey().equalsIgnoreCase(projectKey)) {
+                                    double estimate = 0;
+                                    if (fields.isNull("customfield_10242")) {
+                                        Issue jIssue = new Issue();
+                                        jIssue.setKey(issue.getString("key"));
+                                        jIssue.setProject(project);
+                                        jIssue.setEpic(epic);
+                                        epic.addUnestimatedIssue(jIssue);
+                                    } else {
+                                        estimate = Double.valueOf(fields.getString("customfield_10242"));
+                                    }
 
-                            if (!fields.isNull("resolutiondate")) {
-                                // 2018-11-15T11:51:43.000+0100
-                                String resolutionDateString = fields.getString("resolutiondate");
-                                // yyyy-MM-dd'T'HH:mm:ss.SSSZ
-                                Date date = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ").parse(resolutionDateString);
-                                Instant resolutionInstant = date.toInstant();
-
-                                // check if the issue is resolved after the release start date and before the end date
-                                if (epic.getProject().getRelease().getEndDate().isAfter(resolutionInstant) &&
-                                    epic.getProject().getRelease().getStartDate().isBefore(resolutionInstant)) {
-
+                                    System.out.println(issue.getString("key"));
                                     // add to total story points
                                     epic.addToTotalStoryPoints(estimate);
                                     // add to total issue count
@@ -170,21 +168,32 @@ public class JiraClientTest {
                                     if (!fields.isNull("resolution")) {
                                         JSONObject resolutionObj = fields.getJSONObject("resolution");
                                         String resolution = resolutionObj.getString("name");
-                                        // check if the issue status and resolution is done
-                                        if (("Closed".equalsIgnoreCase(status) || "Resolved".equalsIgnoreCase(status)) &&
-                                            ("Done".equalsIgnoreCase(resolution) || "Fixed".equalsIgnoreCase(resolution))) {
 
-                                            epic.addToStoryPointsCompleted(estimate);
-                                            System.out.println("#########################################");
-                                        } else {
-                                            epic.addToRemainingStoryPoints(estimate);
+                                        if (!"Duplicate".equalsIgnoreCase(resolution) && !"Obsolete".equalsIgnoreCase(resolution) &&
+                                            !"Not an issue".equalsIgnoreCase(resolution)) {
+
+                                            // 2018-11-15T11:51:43.000+0100
+                                            String resolutionDateString = fields.getString("resolutiondate");
+                                            // yyyy-MM-dd'T'HH:mm:ss.SSSZ
+                                            Date date = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ").parse(resolutionDateString);
+                                            Instant resolutionInstant = date.toInstant();
+
+                                            // check if the issue is resolved after the release start date and before the end date
+                                            if (project.getRelease().getEndDate().isAfter(resolutionInstant) &&
+                                                project.getRelease().getStartDate().isBefore(resolutionInstant)) {
+
+                                                if (("Closed".equalsIgnoreCase(status) || "Resolved".equalsIgnoreCase(status)) &&
+                                                    ("Done".equalsIgnoreCase(resolution) || "Fixed".equalsIgnoreCase(resolution))) {
+
+                                                    epic.addToStoryPointsCompleted(estimate);
+                                                }
+                                            }
                                         }
+                                    } else {
+                                        epic.addToRemainingStoryPoints(estimate);
                                     }
                                 }
                             }
-                        } else {
-                            // issues are not in the scope of the release
-                            System.out.println(issue.getString("key") + " is not in the " + version.getName() + " release scope!");
                         }
                     }
                 }
@@ -197,6 +206,39 @@ public class JiraClientTest {
         }
 
         return epic;
+    }
+
+    private static Set<Version> createVersions(String name) {
+        Set<Version> versions = new HashSet<>();
+        Version version = new Version();
+        version.setName(name);
+        versions.add(version);
+
+        return versions;
+    }
+
+    private static Release createRelease() throws ParseException {
+        Release release = new Release();
+        release.setName("Magnolia 6.0 Release");
+        // 2018-11-15T11:51:43.000+0100
+        Date date = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ").parse("2018-06-25T00:00:00.000+0100");
+        Instant instant = date.toInstant();
+        release.setStartDate(instant);
+        date = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ").parse("2018-11-30T23:59:59.999+0100");
+        instant = date.toInstant();
+        release.setEndDate(instant);
+
+        return release;
+    }
+
+    private static Project createProject(String name, String key, Release release, Set<Version> versions) {
+        Project project = new Project();
+        project.setName(name);
+        project.setKey(key);
+        project.setRelease(release);
+        project.setVersions(versions);
+
+        return project;
     }
 
     private static void printIssueTransitionTimes(JiraRestClient client) throws URISyntaxException, IOException, JSONException {

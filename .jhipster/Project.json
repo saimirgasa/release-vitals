@@ -19,28 +19,24 @@
         },
         {
             "relationshipType": "one-to-many",
-            "relationshipName": "version",
-            "otherEntityName": "version",
-            "otherEntityRelationshipName": "project"
-        },
-        {
-            "relationshipType": "one-to-many",
-            "relationshipName": "epic",
-            "otherEntityName": "epic",
-            "otherEntityRelationshipName": "project"
-        },
-        {
-            "relationshipType": "one-to-many",
             "relationshipName": "issue",
             "otherEntityName": "issue",
             "otherEntityRelationshipName": "project"
+        },
+        {
+            "relationshipType": "many-to-many",
+            "otherEntityRelationshipName": "",
+            "relationshipName": "version",
+            "otherEntityName": "version",
+            "otherEntityField": "id",
+            "ownerSide": true
         }
     ],
     "changelogDate": "20181123125649",
     "javadoc": "entity Theme {\nname String,\ntotalIssueCount Integer\n}\n\nentity Feature {\nname String,\nkey String\n}",
     "entityTableName": "project",
     "dto": "no",
-    "pagination": "infinite-scroll",
+    "pagination": "pagination",
     "service": "serviceImpl",
     "jpaMetamodelFiltering": false,
     "fluentMethods": true,

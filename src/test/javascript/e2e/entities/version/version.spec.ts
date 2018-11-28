@@ -38,11 +38,7 @@ describe('Version e2e test', () => {
         const nbButtonsBeforeCreate = await versionComponentsPage.countDeleteButtons();
 
         await versionComponentsPage.clickOnCreateButton();
-        await promise.all([
-            versionUpdatePage.setNameInput('name'),
-            versionUpdatePage.projectSelectLastOption(),
-            versionUpdatePage.issueSelectLastOption()
-        ]);
+        await promise.all([versionUpdatePage.setNameInput('name'), versionUpdatePage.issueSelectLastOption()]);
         expect(await versionUpdatePage.getNameInput()).to.eq('name');
         await versionUpdatePage.save();
         expect(await versionUpdatePage.getSaveButton().isPresent()).to.be.false;

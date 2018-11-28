@@ -8,12 +8,6 @@
     ],
     "relationships": [
         {
-            "relationshipName": "project",
-            "otherEntityName": "project",
-            "relationshipType": "many-to-one",
-            "otherEntityField": "id"
-        },
-        {
             "relationshipName": "issue",
             "otherEntityName": "issue",
             "relationshipType": "many-to-one",
@@ -23,7 +17,7 @@
     "changelogDate": "20181123125650",
     "entityTableName": "version",
     "dto": "no",
-    "pagination": "infinite-scroll",
+    "pagination": "pagination",
     "service": "serviceImpl",
     "jpaMetamodelFiltering": false,
     "fluentMethods": true,

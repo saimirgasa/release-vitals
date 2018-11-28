@@ -29,6 +29,7 @@ export class ProjectUpdatePage {
     nameInput = element(by.id('field_name'));
     keyInput = element(by.id('field_key'));
     releaseSelect = element(by.id('field_release'));
+    versionSelect = element(by.id('field_version'));
 
     async getPageTitle() {
         return this.pageTitle.getAttribute('jhiTranslate');
@@ -67,6 +68,25 @@ export class ProjectUpdatePage {
 
     async getReleaseSelectedOption() {
         return this.releaseSelect.element(by.css('option:checked')).getText();
+    }
+
+    async versionSelectLastOption() {
+        await this.versionSelect
+            .all(by.tagName('option'))
+            .last()
+            .click();
+    }
+
+    async versionSelectOption(option) {
+        await this.versionSelect.sendKeys(option);
+    }
+
+    getVersionSelect(): ElementFinder {
+        return this.versionSelect;
+    }
+
+    async getVersionSelectedOption() {
+        return this.versionSelect.element(by.css('option:checked')).getText();
     }
 
     async save() {

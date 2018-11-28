@@ -1,7 +1,7 @@
 <div class="row justify-content-center">
     <div class="col-8">
         <div *ngIf="epic">
-            <h2><span jhiTranslate="releaseVitalsApp.epic.detail.title">Epic</span> {{epic.id}}</h2>
+            <h2><span jhiTranslate="releaseVitalsApp.epic.detail.title">Epic</span> {{epic.name}}</h2>
             <hr>
             <jhi-alert-error></jhi-alert-error>
             <dl class="row-md jh-entity-details">
@@ -27,21 +27,25 @@
                 </dd>
                 <dt><span jhiTranslate="releaseVitalsApp.epic.percentageCompleted">Percentage Completed</span></dt>
                 <dd>
-                    <span>{{epic.percentageCompleted}}</span>
+                    <span>{{epic.percentageCompleted | percent}}</span>
                 </dd>
                 <dt><span jhiTranslate="releaseVitalsApp.epic.key">Key</span></dt>
                 <dd>
-                    <span>{{epic.key}}</span>
-                </dd>
-                <dt><span jhiTranslate="releaseVitalsApp.epic.epicBrowserURL">Epic Browser URL</span></dt>
-                <dd>
-                    <span>{{epic.epicBrowserURL}}</span>
+                    <span>
+                        <a href="{{epic.epicBrowserURL}}">{{epic.key}}</a>
+                    </span>
                 </dd>
                 <dt><span jhiTranslate="releaseVitalsApp.epic.project">Project</span></dt>
                 <dd>
-                    <div *ngIf="epic.project">
-                        <a [routerLink]="['/project', epic.project?.id, 'view']">{{epic.project?.id}}</a>
-                    </div>
+                    <span *ngFor="let project of epic.projects; let last = last">
+                        <dt><a [routerLink]="['/project', project?.id, 'view' ]">{{project.name}}</a></dt>
+                    </span>
+                </dd>
+                <dt><span jhiTranslate="releaseVitalsApp.epic.unestimatedIssue">Unestimated Issues</span></dt>
+                <dd>
+                    <span *ngFor="let unestimatedIssue of epic.unestimatedIssues; let last = last">
+                        <dt><a [routerLink]="['/issue', unestimatedIssue?.id, 'view' ]">{{unestimatedIssue.title}}</a></dt>
+                    </span>
                 </dd>
             </dl>
 

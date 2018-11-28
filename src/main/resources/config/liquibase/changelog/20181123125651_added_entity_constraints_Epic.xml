@@ -8,11 +8,16 @@
     -->
     <changeSet id="20181123125651-2" author="jhipster">
         
-        <addForeignKeyConstraint baseColumnNames="project_id"
-                                 baseTableName="epic"
-                                 constraintName="fk_epic_project_id"
+        <addForeignKeyConstraint baseColumnNames="epics_id"
+                                 baseTableName="epic_project"
+                                 constraintName="fk_epic_project_epics_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="epic"/>
+        <addForeignKeyConstraint baseColumnNames="projects_id"
+                                 baseTableName="epic_project"
+                                 constraintName="fk_epic_project_projects_id"
                                  referencedColumnNames="id"
                                  referencedTableName="project"/>
-
+        
     </changeSet>
 </databaseChangeLog>

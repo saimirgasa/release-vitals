@@ -16,17 +16,10 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="releaseVitalsApp.version.project" for="field_project">Project</label>
-                    <select class="form-control" id="field_project" name="project" [(ngModel)]="version.project" >
-                        <option [ngValue]="null"></option>
-                        <option [ngValue]="projectOption.id === version.project?.id ? version.project : projectOption" *ngFor="let projectOption of projects; trackBy: trackProjectById">{{projectOption.name}}</option>
-                    </select>
-                </div>
-                <div class="form-group">
                     <label class="form-control-label" jhiTranslate="releaseVitalsApp.version.issue" for="field_issue">Issue</label>
                     <select class="form-control" id="field_issue" name="issue" [(ngModel)]="version.issue" >
                         <option [ngValue]="null"></option>
-                        <option [ngValue]="issueOption.id === version.issue?.id ? version.issue : issueOption" *ngFor="let issueOption of issues; trackBy: trackIssueById">{{issueOption.title}}</option>
+                        <option [ngValue]="issueOption.id === version.issue?.id ? version.issue : issueOption" *ngFor="let issueOption of issues; trackBy: trackIssueById">{{issueOption.id}}</option>
                     </select>
                 </div>
             </div>

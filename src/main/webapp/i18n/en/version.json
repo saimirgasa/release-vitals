@@ -18,7 +18,6 @@
                 "title": "Version"
             },
             "name": "Name",
-            "project": "Project",
             "issue": "Issue"
         }
     }

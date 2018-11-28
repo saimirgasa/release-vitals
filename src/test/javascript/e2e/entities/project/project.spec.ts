@@ -42,6 +42,7 @@ describe('Project e2e test', () => {
             projectUpdatePage.setNameInput('name'),
             projectUpdatePage.setKeyInput('key'),
             projectUpdatePage.releaseSelectLastOption()
+            // projectUpdatePage.versionSelectLastOption(),
         ]);
         expect(await projectUpdatePage.getNameInput()).to.eq('name');
         expect(await projectUpdatePage.getKeyInput()).to.eq('key');

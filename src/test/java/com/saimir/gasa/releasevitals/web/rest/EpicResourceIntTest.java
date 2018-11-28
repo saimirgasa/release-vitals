@@ -6,12 +6,14 @@ import com.saimir.gasa.releasevitals.domain.Epic;
 import com.saimir.gasa.releasevitals.repository.EpicRepository;
 import com.saimir.gasa.releasevitals.repository.search.EpicSearchRepository;
 import com.saimir.gasa.releasevitals.service.EpicService;
+import com.saimir.gasa.releasevitals.service.IssueService;
 import com.saimir.gasa.releasevitals.service.JiraService;
 import com.saimir.gasa.releasevitals.web.rest.errors.ExceptionTranslator;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -26,6 +28,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -74,8 +77,18 @@ public class EpicResourceIntTest {
     @Autowired
     private EpicRepository epicRepository;
 
+    @Mock
+    private EpicRepository epicRepositoryMock;
+
+
+    @Mock
+    private EpicService epicServiceMock;
+
     @Autowired
     private EpicService epicService;
+
+    @Autowired
+    private IssueService issueService;
 
     @Autowired
     private JiraService jiraService;
@@ -107,7 +120,7 @@ public class EpicResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final EpicResource epicResource = new EpicResource(epicService, jiraService);
+        final EpicResource epicResource = new EpicResource(epicService, jiraService, issueService);
         this.restEpicMockMvc = MockMvcBuilders.standaloneSetup(epicResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -208,6 +221,37 @@ public class EpicResourceIntTest {
             .andExpect(jsonPath("$.[*].percentageCompleted").value(hasItem(DEFAULT_PERCENTAGE_COMPLETED.doubleValue())))
             .andExpect(jsonPath("$.[*].key").value(hasItem(DEFAULT_KEY.toString())))
             .andExpect(jsonPath("$.[*].epicBrowserURL").value(hasItem(DEFAULT_EPIC_BROWSER_URL.toString())));
+    }
+
+    public void getAllEpicsWithEagerRelationshipsIsEnabled() throws Exception {
+        EpicResource epicResource = new EpicResource(epicServiceMock, jiraService, issueService);
+        when(epicServiceMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
+
+        MockMvc restEpicMockMvc = MockMvcBuilders.standaloneSetup(epicResource)
+            .setCustomArgumentResolvers(pageableArgumentResolver)
+            .setControllerAdvice(exceptionTranslator)
+            .setConversionService(createFormattingConversionService())
+            .setMessageConverters(jacksonMessageConverter).build();
+
+        restEpicMockMvc.perform(get("/api/epics?eagerload=true"))
+        .andExpect(status().isOk());
+
+        verify(epicServiceMock, times(1)).findAllWithEagerRelationships(any());
+    }
+
+    public void getAllEpicsWithEagerRelationshipsIsNotEnabled() throws Exception {
+        EpicResource epicResource = new EpicResource(epicServiceMock, jiraService, issueService);
+            when(epicServiceMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
+            MockMvc restEpicMockMvc = MockMvcBuilders.standaloneSetup(epicResource)
+            .setCustomArgumentResolvers(pageableArgumentResolver)
+            .setControllerAdvice(exceptionTranslator)
+            .setConversionService(createFormattingConversionService())
+            .setMessageConverters(jacksonMessageConverter).build();
+
+        restEpicMockMvc.perform(get("/api/epics?eagerload=true"))
+        .andExpect(status().isOk());
+
+            verify(epicServiceMock, times(1)).findAllWithEagerRelationships(any());
     }
 
     @Test

@@ -57,9 +57,18 @@ public class ProjectServiceImpl implements ProjectService {
      */
     @Override
     @Transactional(readOnly = true)
-    public Page<Project> findAll(@PageableDefault(size = 99)Pageable pageable) {
+    public Page<Project> findAll(Pageable pageable) {
         log.debug("Request to get all Projects");
         return projectRepository.findAll(pageable);
+    }
+
+    /**
+     * Get all the Project with eager load of many-to-many relationships.
+     *
+     * @return the list of entities
+     */
+    public Page<Project> findAllWithEagerRelationships(@PageableDefault(size = 99)Pageable pageable) {
+        return projectRepository.findAllWithEagerRelationships(pageable);
     }
 
 
@@ -73,7 +82,7 @@ public class ProjectServiceImpl implements ProjectService {
     @Transactional(readOnly = true)
     public Optional<Project> findOne(Long id) {
         log.debug("Request to get Project : {}", id);
-        return projectRepository.findById(id);
+        return projectRepository.findOneWithEagerRelationships(id);
     }
 
     /**

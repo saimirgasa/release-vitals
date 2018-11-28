@@ -20,9 +20,8 @@
             "name": "Name",
             "key": "Key",
             "release": "Release",
-            "version": "Version",
-            "epic": "Epic",
-            "issue": "Issue"
+            "issue": "Issue",
+            "version": "Version"
         }
     }
 }

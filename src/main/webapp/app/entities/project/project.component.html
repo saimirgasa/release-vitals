@@ -28,22 +28,29 @@
     <div class="table-responsive" *ngIf="projects">
         <table class="table table-striped">
             <thead>
-            <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="reset.bind(this)">
-            <th jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
             <th jhiSortBy="name"><span jhiTranslate="releaseVitalsApp.project.name">Name</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="key"><span jhiTranslate="releaseVitalsApp.project.key">Key</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="release.id"><span jhiTranslate="releaseVitalsApp.project.release">Release</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+                <th jhiSortBy="version.id"><span jhiTranslate="releaseVitalsApp.project.version">Versions</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th></th>
             </tr>
             </thead>
-            <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']" [infiniteScrollDistance]="0">
+            <tbody>
             <tr *ngFor="let project of projects ;trackBy: trackId">
                 <td><a [routerLink]="['/project', project.id, 'view' ]">{{project.name}}</a></td>
-                <td>{{project.name}}</td>
+                <!--<td>{{project.name}}</td>-->
                 <td>{{project.key}}</td>
                 <td>
                     <div *ngIf="project.release">
                         <a [routerLink]="['../release', project.release?.id, 'view' ]" >{{project.release?.name}}</a>
+                    </div>
+                </td>
+                <td>
+                    <div *ngIf="project.versions">
+                        <dd *ngFor="let version of project.versions">
+                            <a [routerLink]="['/version', version?.id, 'view' ]">{{version.name}}</a>
+                        </dd>
                     </div>
                 </td>
                 <td class="text-right">
@@ -73,5 +80,13 @@
             </tr>
             </tbody>
         </table>
+    </div>
+    <div *ngIf="projects && projects.length">
+        <div class="row justify-content-center">
+            <jhi-item-count [page]="page" [total]="queryCount" [maxSize]="5" [itemsPerPage]="itemsPerPage"></jhi-item-count>
+        </div>
+        <div class="row justify-content-center">
+            <ngb-pagination [collectionSize]="totalItems" [(page)]="page" [pageSize]="itemsPerPage" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage(page)"></ngb-pagination>
+        </div>
     </div>
 </div>

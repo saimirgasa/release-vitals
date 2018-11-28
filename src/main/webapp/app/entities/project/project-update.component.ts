@@ -8,6 +8,8 @@ import { IProject } from 'app/shared/model/project.model';
 import { ProjectService } from './project.service';
 import { IRelease } from 'app/shared/model/release.model';
 import { ReleaseService } from 'app/entities/release';
+import { IVersion } from 'app/shared/model/version.model';
+import { VersionService } from 'app/entities/version';
 
 @Component({
     selector: 'jhi-project-update',
@@ -19,10 +21,13 @@ export class ProjectUpdateComponent implements OnInit {
 
     releases: IRelease[];
 
+    versions: IVersion[];
+
     constructor(
         private jhiAlertService: JhiAlertService,
         private projectService: ProjectService,
         private releaseService: ReleaseService,
+        private versionService: VersionService,
         private activatedRoute: ActivatedRoute
     ) {}
 
@@ -34,6 +39,12 @@ export class ProjectUpdateComponent implements OnInit {
         this.releaseService.query().subscribe(
             (res: HttpResponse<IRelease[]>) => {
                 this.releases = res.body;
+            },
+            (res: HttpErrorResponse) => this.onError(res.message)
+        );
+        this.versionService.query().subscribe(
+            (res: HttpResponse<IVersion[]>) => {
+                this.versions = res.body;
             },
             (res: HttpErrorResponse) => this.onError(res.message)
         );
@@ -71,5 +82,20 @@ export class ProjectUpdateComponent implements OnInit {
 
     trackReleaseById(index: number, item: IRelease) {
         return item.id;
+    }
+
+    trackVersionById(index: number, item: IVersion) {
+        return item.id;
+    }
+
+    getSelected(selectedVals: Array<any>, option: any) {
+        if (selectedVals) {
+            for (let i = 0; i < selectedVals.length; i++) {
+                if (option.id === selectedVals[i].id) {
+                    return selectedVals[i];
+                }
+            }
+        }
+        return option;
     }
 }

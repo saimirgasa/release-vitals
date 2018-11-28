@@ -62,6 +62,15 @@ public class EpicServiceImpl implements EpicService {
         return epicRepository.findAll(pageable);
     }
 
+    /**
+     * Get all the Epic with eager load of many-to-many relationships.
+     *
+     * @return the list of entities
+     */
+    public Page<Epic> findAllWithEagerRelationships(@PageableDefault(size = 99)Pageable pageable) {
+        return epicRepository.findAllWithEagerRelationships(pageable);
+    }
+
 
     /**
      * Get one epic by id.
@@ -73,7 +82,7 @@ public class EpicServiceImpl implements EpicService {
     @Transactional(readOnly = true)
     public Optional<Epic> findOne(Long id) {
         log.debug("Request to get Epic : {}", id);
-        return epicRepository.findById(id);
+        return epicRepository.findOneWithEagerRelationships(id);
     }
 
     /**

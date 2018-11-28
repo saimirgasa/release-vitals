@@ -2,7 +2,9 @@ package com.saimir.gasa.releasevitals.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
 import com.saimir.gasa.releasevitals.domain.Epic;
+import com.saimir.gasa.releasevitals.domain.Issue;
 import com.saimir.gasa.releasevitals.service.EpicService;
+import com.saimir.gasa.releasevitals.service.IssueService;
 import com.saimir.gasa.releasevitals.service.JiraService;
 import com.saimir.gasa.releasevitals.web.rest.errors.BadRequestAlertException;
 import com.saimir.gasa.releasevitals.web.rest.util.HeaderUtil;
@@ -42,9 +44,12 @@ public class EpicResource {
 
     private final JiraService jiraService;
 
-    public EpicResource(EpicService epicService, JiraService jiraService) {
+    private final IssueService issueService;
+
+    public EpicResource(EpicService epicService, JiraService jiraService, IssueService issueService) {
         this.epicService = epicService;
         this.jiraService = jiraService;
+        this.issueService = issueService;
     }
 
     /**
@@ -63,6 +68,7 @@ public class EpicResource {
         }
         Epic result = epicService.save(epic);
         result = jiraService.updateEpicDetails(result.getId());
+        result.getUnestimatedIssues().size();
         return ResponseEntity.created(new URI("/api/epics/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -94,14 +100,20 @@ public class EpicResource {
      * GET  /epics : get all the epics.
      *
      * @param pageable the pagination information
+     * @param eagerload flag to eager load entities from relationships (This is applicable for many-to-many)
      * @return the ResponseEntity with status 200 (OK) and the list of epics in body
      */
     @GetMapping("/epics")
     @Timed
-    public ResponseEntity<List<Epic>> getAllEpics(@PageableDefault(size = 99)Pageable pageable) {
+    public ResponseEntity<List<Epic>> getAllEpics(@PageableDefault(size = 99)Pageable pageable, @RequestParam(required = false, defaultValue = "true") boolean eagerload) {
         log.debug("REST request to get a page of Epics");
-        Page<Epic> page = epicService.findAll(pageable);
-        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/epics");
+        Page<Epic> page;
+        if (eagerload) {
+            page = epicService.findAllWithEagerRelationships(pageable);
+        } else {
+            page = epicService.findAll(pageable);
+        }
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, String.format("/api/epics?eagerload=%b", eagerload));
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
 

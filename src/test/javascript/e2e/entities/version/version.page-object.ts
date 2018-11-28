@@ -27,7 +27,6 @@ export class VersionUpdatePage {
     saveButton = element(by.id('save-entity'));
     cancelButton = element(by.id('cancel-save'));
     nameInput = element(by.id('field_name'));
-    projectSelect = element(by.id('field_project'));
     issueSelect = element(by.id('field_issue'));
 
     async getPageTitle() {
@@ -40,25 +39,6 @@ export class VersionUpdatePage {
 
     async getNameInput() {
         return this.nameInput.getAttribute('value');
-    }
-
-    async projectSelectLastOption() {
-        await this.projectSelect
-            .all(by.tagName('option'))
-            .last()
-            .click();
-    }
-
-    async projectSelectOption(option) {
-        await this.projectSelect.sendKeys(option);
-    }
-
-    getProjectSelect(): ElementFinder {
-        return this.projectSelect;
-    }
-
-    async getProjectSelectedOption() {
-        return this.projectSelect.element(by.css('option:checked')).getText();
     }
 
     async issueSelectLastOption() {

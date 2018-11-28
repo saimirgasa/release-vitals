@@ -51,13 +51,14 @@ public class Project implements Serializable {
 
     @OneToMany(mappedBy = "project")
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    private Set<Version> versions = new HashSet<>();
-    @OneToMany(mappedBy = "project")
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    private Set<Epic> epics = new HashSet<>();
-    @OneToMany(mappedBy = "project")
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Issue> issues = new HashSet<>();
+    @ManyToMany
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    @JoinTable(name = "project_version",
+               joinColumns = @JoinColumn(name = "projects_id", referencedColumnName = "id"),
+               inverseJoinColumns = @JoinColumn(name = "versions_id", referencedColumnName = "id"))
+    private Set<Version> versions = new HashSet<>();
+
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
         return id;
@@ -106,56 +107,6 @@ public class Project implements Serializable {
         this.release = release;
     }
 
-    public Set<Version> getVersions() {
-        return versions;
-    }
-
-    public Project versions(Set<Version> versions) {
-        this.versions = versions;
-        return this;
-    }
-
-    public Project addVersion(Version version) {
-        this.versions.add(version);
-        version.setProject(this);
-        return this;
-    }
-
-    public Project removeVersion(Version version) {
-        this.versions.remove(version);
-        version.setProject(null);
-        return this;
-    }
-
-    public void setVersions(Set<Version> versions) {
-        this.versions = versions;
-    }
-
-    public Set<Epic> getEpics() {
-        return epics;
-    }
-
-    public Project epics(Set<Epic> epics) {
-        this.epics = epics;
-        return this;
-    }
-
-    public Project addEpic(Epic epic) {
-        this.epics.add(epic);
-        epic.setProject(this);
-        return this;
-    }
-
-    public Project removeEpic(Epic epic) {
-        this.epics.remove(epic);
-        epic.setProject(null);
-        return this;
-    }
-
-    public void setEpics(Set<Epic> epics) {
-        this.epics = epics;
-    }
-
     public Set<Issue> getIssues() {
         return issues;
     }
@@ -179,6 +130,29 @@ public class Project implements Serializable {
 
     public void setIssues(Set<Issue> issues) {
         this.issues = issues;
+    }
+
+    public Set<Version> getVersions() {
+        return versions;
+    }
+
+    public Project versions(Set<Version> versions) {
+        this.versions = versions;
+        return this;
+    }
+
+    public Project addVersion(Version version) {
+        this.versions.add(version);
+        return this;
+    }
+
+    public Project removeVersion(Version version) {
+        this.versions.remove(version);
+        return this;
+    }
+
+    public void setVersions(Set<Version> versions) {
+        this.versions = versions;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 

@@ -26,7 +26,7 @@
     "javadoc": "Release Vitals\n@author Saimir Gasa",
     "entityTableName": "release",
     "dto": "no",
-    "pagination": "infinite-scroll",
+    "pagination": "pagination",
     "service": "serviceImpl",
     "jpaMetamodelFiltering": false,
     "fluentMethods": true,

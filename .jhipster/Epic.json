@@ -36,22 +36,24 @@
     ],
     "relationships": [
         {
-            "relationshipName": "project",
-            "otherEntityName": "project",
-            "relationshipType": "many-to-one",
-            "otherEntityField": "id"
-        },
-        {
             "relationshipType": "one-to-many",
             "relationshipName": "unestimatedIssue",
             "otherEntityName": "issue",
             "otherEntityRelationshipName": "epic"
+        },
+        {
+            "relationshipType": "many-to-many",
+            "otherEntityRelationshipName": "",
+            "relationshipName": "project",
+            "otherEntityName": "project",
+            "otherEntityField": "id",
+            "ownerSide": true
         }
     ],
     "changelogDate": "20181123125651",
     "entityTableName": "epic",
     "dto": "no",
-    "pagination": "infinite-scroll",
+    "pagination": "pagination",
     "service": "serviceImpl",
     "jpaMetamodelFiltering": false,
     "fluentMethods": true,

@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/http';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { JhiEventManager, JhiParseLinks, JhiAlertService } from 'ng-jhipster';
 
@@ -15,34 +15,38 @@ import { EpicService } from './epic.service';
     templateUrl: './epic.component.html'
 })
 export class EpicComponent implements OnInit, OnDestroy {
-    epics: IEpic[];
     currentAccount: any;
+    epics: IEpic[];
+    error: any;
+    success: any;
     eventSubscriber: Subscription;
-    itemsPerPage: number;
+    currentSearch: string;
+    routeData: any;
     links: any;
+    totalItems: any;
+    queryCount: any;
+    itemsPerPage: any;
     page: any;
     predicate: any;
-    queryCount: any;
+    previousPage: any;
     reverse: any;
-    totalItems: number;
-    currentSearch: string;
 
     constructor(
         private epicService: EpicService,
-        private jhiAlertService: JhiAlertService,
-        private eventManager: JhiEventManager,
         private parseLinks: JhiParseLinks,
+        private jhiAlertService: JhiAlertService,
+        private principal: Principal,
         private activatedRoute: ActivatedRoute,
-        private principal: Principal
+        private router: Router,
+        private eventManager: JhiEventManager
     ) {
-        this.epics = [];
         this.itemsPerPage = ITEMS_PER_PAGE;
-        this.page = 0;
-        this.links = {
-            last: 0
-        };
-        this.predicate = 'id';
-        this.reverse = true;
+        this.routeData = this.activatedRoute.data.subscribe(data => {
+            this.page = data.pagingParams.page;
+            this.previousPage = data.pagingParams.page;
+            this.reverse = data.pagingParams.ascending;
+            this.predicate = data.pagingParams.predicate;
+        });
         this.currentSearch =
             this.activatedRoute.snapshot && this.activatedRoute.snapshot.params['search']
                 ? this.activatedRoute.snapshot.params['search']
@@ -53,8 +57,8 @@ export class EpicComponent implements OnInit, OnDestroy {
         if (this.currentSearch) {
             this.epicService
                 .search({
+                    page: this.page - 1,
                     query: this.currentSearch,
-                    page: this.page,
                     size: this.itemsPerPage,
                     sort: this.sort()
                 })
@@ -66,7 +70,7 @@ export class EpicComponent implements OnInit, OnDestroy {
         }
         this.epicService
             .query({
-                page: this.page,
+                page: this.page - 1,
                 size: this.itemsPerPage,
                 sort: this.sort()
             })
@@ -76,26 +80,35 @@ export class EpicComponent implements OnInit, OnDestroy {
             );
     }
 
-    reset() {
-        this.page = 0;
-        this.epics = [];
-        this.loadAll();
+    loadPage(page: number) {
+        if (page !== this.previousPage) {
+            this.previousPage = page;
+            this.transition();
+        }
     }
 
-    loadPage(page) {
-        this.page = page;
+    transition() {
+        this.router.navigate(['/epic'], {
+            queryParams: {
+                page: this.page,
+                size: this.itemsPerPage,
+                search: this.currentSearch,
+                sort: this.predicate + ',' + (this.reverse ? 'asc' : 'desc')
+            }
+        });
         this.loadAll();
     }
 
     clear() {
-        this.epics = [];
-        this.links = {
-            last: 0
-        };
         this.page = 0;
-        this.predicate = 'id';
-        this.reverse = true;
         this.currentSearch = '';
+        this.router.navigate([
+            '/epic',
+            {
+                page: this.page,
+                sort: this.predicate + ',' + (this.reverse ? 'asc' : 'desc')
+            }
+        ]);
         this.loadAll();
     }
 
@@ -103,14 +116,16 @@ export class EpicComponent implements OnInit, OnDestroy {
         if (!query) {
             return this.clear();
         }
-        this.epics = [];
-        this.links = {
-            last: 0
-        };
         this.page = 0;
-        this.predicate = '_score';
-        this.reverse = false;
         this.currentSearch = query;
+        this.router.navigate([
+            '/epic',
+            {
+                search: this.currentSearch,
+                page: this.page,
+                sort: this.predicate + ',' + (this.reverse ? 'asc' : 'desc')
+            }
+        ]);
         this.loadAll();
     }
 
@@ -131,7 +146,7 @@ export class EpicComponent implements OnInit, OnDestroy {
     }
 
     registerChangeInEpics() {
-        this.eventSubscriber = this.eventManager.subscribe('epicListModification', response => this.reset());
+        this.eventSubscriber = this.eventManager.subscribe('epicListModification', response => this.loadAll());
     }
 
     sort() {
@@ -145,9 +160,8 @@ export class EpicComponent implements OnInit, OnDestroy {
     private paginateEpics(data: IEpic[], headers: HttpHeaders) {
         this.links = this.parseLinks.parse(headers.get('link'));
         this.totalItems = parseInt(headers.get('X-Total-Count'), 10);
-        for (let i = 0; i < data.length; i++) {
-            this.epics.push(data[i]);
-        }
+        this.queryCount = this.totalItems;
+        this.epics = data;
     }
 
     private onError(errorMessage: string) {

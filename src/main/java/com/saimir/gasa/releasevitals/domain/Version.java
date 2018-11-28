@@ -30,10 +30,6 @@ public class Version implements Serializable {
     private String name;
 
     @ManyToOne
-    @JsonIgnoreProperties("versions")
-    private Project project;
-
-    @ManyToOne
     @JsonIgnoreProperties("fixVersions")
     private Issue issue;
 
@@ -57,19 +53,6 @@ public class Version implements Serializable {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public Project getProject() {
-        return project;
-    }
-
-    public Version project(Project project) {
-        this.project = project;
-        return this;
-    }
-
-    public void setProject(Project project) {
-        this.project = project;
     }
 
     public Issue getIssue() {

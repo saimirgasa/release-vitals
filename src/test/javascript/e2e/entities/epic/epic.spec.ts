@@ -46,8 +46,8 @@ describe('Epic e2e test', () => {
             epicUpdatePage.setTotalIssueCountInput('5'),
             epicUpdatePage.setPercentageCompletedInput('5'),
             epicUpdatePage.setKeyInput('key'),
-            epicUpdatePage.setEpicBrowserURLInput('epicBrowserURL'),
-            epicUpdatePage.projectSelectLastOption()
+            epicUpdatePage.setEpicBrowserURLInput('epicBrowserURL')
+            // epicUpdatePage.projectSelectLastOption(),
         ]);
         expect(await epicUpdatePage.getNameInput()).to.eq('name');
         expect(await epicUpdatePage.getTotalStoryPointsInput()).to.eq('5');

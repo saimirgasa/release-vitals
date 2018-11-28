@@ -27,6 +27,12 @@
                         <option [ngValue]="releaseOption.id === project.release?.id ? project.release : releaseOption" *ngFor="let releaseOption of releases; trackBy: trackReleaseById">{{releaseOption.name}}</option>
                     </select>
                 </div>
+                <div class="form-group">
+                    <label jhiTranslate="releaseVitalsApp.project.version" for="field_version">Version</label>
+                    <select class="form-control" id="field_version" multiple name="version" [(ngModel)]="project.versions">
+                        <option [ngValue]="getSelected(project.versions, versionOption)" *ngFor="let versionOption of versions; trackBy: trackVersionById">{{versionOption.name}}</option>
+                    </select>
+                </div>
             </div>
             <div>
                 <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">

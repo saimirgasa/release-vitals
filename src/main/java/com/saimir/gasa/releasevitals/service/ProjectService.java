@@ -28,7 +28,13 @@ public interface ProjectService {
      */
     Page<Project> findAll(Pageable pageable);
 
-
+    /**
+     * Get all the Project with eager load of many-to-many relationships.
+     *
+     * @return the list of entities
+     */
+    Page<Project> findAllWithEagerRelationships(Pageable pageable);
+    
     /**
      * Get the "id" project.
      *

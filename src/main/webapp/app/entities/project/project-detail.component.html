@@ -1,7 +1,7 @@
 <div class="row justify-content-center">
     <div class="col-8">
         <div *ngIf="project">
-            <h2><span jhiTranslate="releaseVitalsApp.project.detail.title">Project</span> {{project.id}}</h2>
+            <h2><span jhiTranslate="releaseVitalsApp.project.detail.title">Project</span> {{project.name}}</h2>
             <hr>
             <jhi-alert-error></jhi-alert-error>
             <dl class="row-md jh-entity-details">
@@ -16,8 +16,14 @@
                 <dt><span jhiTranslate="releaseVitalsApp.project.release">Release</span></dt>
                 <dd>
                     <div *ngIf="project.release">
-                        <a [routerLink]="['/release', project.release?.id, 'view']">{{project.release?.id}}</a>
+                        <a [routerLink]="['/release', project.release?.id, 'view']">{{project.release?.name}}</a>
                     </div>
+                </dd>
+                <dt><span jhiTranslate="releaseVitalsApp.project.version">Version</span></dt>
+                <dd>
+                    <span *ngFor="let version of project.versions; let last = last">
+                        <a [routerLink]="['/version', version?.id, 'view' ]">{{version.name}}</a>{{last ? '' : ', '}}
+                    </span>
                 </dd>
             </dl>
 

@@ -1,5 +1,5 @@
-import { IProject } from 'app/shared/model//project.model';
 import { IIssue } from 'app/shared/model//issue.model';
+import { IProject } from 'app/shared/model//project.model';
 
 export interface IEpic {
     id?: number;
@@ -11,8 +11,8 @@ export interface IEpic {
     percentageCompleted?: number;
     key?: string;
     epicBrowserURL?: string;
-    project?: IProject;
     unestimatedIssues?: IIssue[];
+    projects?: IProject[];
 }
 
 export class Epic implements IEpic {
@@ -26,7 +26,7 @@ export class Epic implements IEpic {
         public percentageCompleted?: number,
         public key?: string,
         public epicBrowserURL?: string,
-        public project?: IProject,
-        public unestimatedIssues?: IIssue[]
+        public unestimatedIssues?: IIssue[],
+        public projects?: IProject[]
     ) {}
 }

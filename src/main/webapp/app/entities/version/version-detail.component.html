@@ -9,12 +9,6 @@
                 <dd>
                     <span>{{version.name}}</span>
                 </dd>
-                <dt><span jhiTranslate="releaseVitalsApp.version.project">Project</span></dt>
-                <dd>
-                    <div *ngIf="version.project">
-                        <a [routerLink]="['/project', version.project?.id, 'view']">{{version.project?.id}}</a>
-                    </div>
-                </dd>
                 <dt><span jhiTranslate="releaseVitalsApp.version.issue">Issue</span></dt>
                 <dd>
                     <div *ngIf="version.issue">

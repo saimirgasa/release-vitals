@@ -14,5 +14,16 @@
                                  referencedColumnNames="id"
                                  referencedTableName="release"/>
 
+        <addForeignKeyConstraint baseColumnNames="projects_id"
+                                 baseTableName="project_version"
+                                 constraintName="fk_project_version_projects_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="project"/>
+        <addForeignKeyConstraint baseColumnNames="versions_id"
+                                 baseTableName="project_version"
+                                 constraintName="fk_project_version_versions_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="version"/>
+        
     </changeSet>
 </databaseChangeLog>

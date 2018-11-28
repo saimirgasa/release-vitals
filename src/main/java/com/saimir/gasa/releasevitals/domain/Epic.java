@@ -1,7 +1,6 @@
 package com.saimir.gasa.releasevitals.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -33,16 +32,16 @@ public class Epic implements Serializable {
     private String name;
 
     @Column(name = "total_story_points")
-    private Double totalStoryPoints;
+    private Double totalStoryPoints = 0d;
 
     @Column(name = "story_points_completed")
-    private Double storyPointsCompleted;
+    private Double storyPointsCompleted = 0d;
 
     @Column(name = "remaining_story_points")
-    private Double remainingStoryPoints;
+    private Double remainingStoryPoints = 0d;
 
     @Column(name = "total_issue_count")
-    private Integer totalIssueCount;
+    private Integer totalIssueCount = 0;
 
     @Column(name = "percentage_completed")
     private Double percentageCompleted;
@@ -53,13 +52,16 @@ public class Epic implements Serializable {
     @Column(name = "epic_browser_url")
     private String epicBrowserURL;
 
-    @ManyToOne
-    @JsonIgnoreProperties("epics")
-    private Project project;
-
     @OneToMany(mappedBy = "epic")
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Issue> unestimatedIssues = new HashSet<>();
+    @ManyToMany
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    @JoinTable(name = "epic_project",
+               joinColumns = @JoinColumn(name = "epics_id", referencedColumnName = "id"),
+               inverseJoinColumns = @JoinColumn(name = "projects_id", referencedColumnName = "id"))
+    private Set<Project> projects = new HashSet<>();
+
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
         return id;
@@ -173,19 +175,6 @@ public class Epic implements Serializable {
         this.epicBrowserURL = epicBrowserURL;
     }
 
-    public Project getProject() {
-        return project;
-    }
-
-    public Epic project(Project project) {
-        this.project = project;
-        return this;
-    }
-
-    public void setProject(Project project) {
-        this.project = project;
-    }
-
     public Set<Issue> getUnestimatedIssues() {
         return unestimatedIssues;
     }
@@ -209,6 +198,29 @@ public class Epic implements Serializable {
 
     public void setUnestimatedIssues(Set<Issue> issues) {
         this.unestimatedIssues = issues;
+    }
+
+    public Set<Project> getProjects() {
+        return projects;
+    }
+
+    public Epic projects(Set<Project> projects) {
+        this.projects = projects;
+        return this;
+    }
+
+    public Epic addProject(Project project) {
+        this.projects.add(project);
+        return this;
+    }
+
+    public Epic removeProject(Project project) {
+        this.projects.remove(project);
+        return this;
+    }
+
+    public void setProjects(Set<Project> projects) {
+        this.projects = projects;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
@@ -248,30 +260,18 @@ public class Epic implements Serializable {
     }
 
     public void addToRemainingStoryPoints(double estimate) {
-        if (this.remainingStoryPoints == null) {
-            this.remainingStoryPoints = 0d;
-        }
         this.remainingStoryPoints += estimate;
     }
 
     public void addToTotalStoryPoints(double estimate) {
-        if (this.totalStoryPoints == null) {
-            this.totalStoryPoints = 0d;
-        }
         this.totalStoryPoints += estimate;
     }
 
     public void addToTotalIssueCount(int increment) {
-        if (this.totalIssueCount == null) {
-            this.totalIssueCount = 0;
-        }
         this.totalIssueCount += increment;
     }
 
     public void addToStoryPointsCompleted(double estimate) {
-        if (this.storyPointsCompleted == null) {
-            this.storyPointsCompleted = 0d;
-        }
         this.storyPointsCompleted += estimate;
     }
 }

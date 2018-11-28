@@ -11,6 +11,7 @@ import com.saimir.gasa.releasevitals.web.rest.errors.ExceptionTranslator;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -25,6 +26,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -54,7 +56,14 @@ public class ProjectResourceIntTest {
 
     @Autowired
     private ProjectRepository projectRepository;
+
+    @Mock
+    private ProjectRepository projectRepositoryMock;
     
+
+    @Mock
+    private ProjectService projectServiceMock;
+
     @Autowired
     private ProjectService projectService;
 
@@ -170,6 +179,37 @@ public class ProjectResourceIntTest {
             .andExpect(jsonPath("$.[*].key").value(hasItem(DEFAULT_KEY.toString())));
     }
     
+    public void getAllProjectsWithEagerRelationshipsIsEnabled() throws Exception {
+        ProjectResource projectResource = new ProjectResource(projectServiceMock);
+        when(projectServiceMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
+
+        MockMvc restProjectMockMvc = MockMvcBuilders.standaloneSetup(projectResource)
+            .setCustomArgumentResolvers(pageableArgumentResolver)
+            .setControllerAdvice(exceptionTranslator)
+            .setConversionService(createFormattingConversionService())
+            .setMessageConverters(jacksonMessageConverter).build();
+
+        restProjectMockMvc.perform(get("/api/projects?eagerload=true"))
+        .andExpect(status().isOk());
+
+        verify(projectServiceMock, times(1)).findAllWithEagerRelationships(any());
+    }
+
+    public void getAllProjectsWithEagerRelationshipsIsNotEnabled() throws Exception {
+        ProjectResource projectResource = new ProjectResource(projectServiceMock);
+            when(projectServiceMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
+            MockMvc restProjectMockMvc = MockMvcBuilders.standaloneSetup(projectResource)
+            .setCustomArgumentResolvers(pageableArgumentResolver)
+            .setControllerAdvice(exceptionTranslator)
+            .setConversionService(createFormattingConversionService())
+            .setMessageConverters(jacksonMessageConverter).build();
+
+        restProjectMockMvc.perform(get("/api/projects?eagerload=true"))
+        .andExpect(status().isOk());
+
+            verify(projectServiceMock, times(1)).findAllWithEagerRelationships(any());
+    }
+
     @Test
     @Transactional
     public void getProject() throws Exception {

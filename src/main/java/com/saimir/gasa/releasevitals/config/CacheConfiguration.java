@@ -53,6 +53,8 @@ public class CacheConfiguration {
             cm.createCache(com.saimir.gasa.releasevitals.domain.Issue.class.getName() + ".statuses", jcacheConfiguration);
             cm.createCache(com.saimir.gasa.releasevitals.domain.Issue.class.getName() + ".fixVersions", jcacheConfiguration);
             cm.createCache(com.saimir.gasa.releasevitals.domain.Status.class.getName(), jcacheConfiguration);
+            cm.createCache(com.saimir.gasa.releasevitals.domain.Epic.class.getName() + ".projects", jcacheConfiguration);
+            cm.createCache(com.saimir.gasa.releasevitals.domain.Version.class.getName() + ".projects", jcacheConfiguration);
             // jhipster-needle-ehcache-add-entry
         };
     }
