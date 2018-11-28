@@ -41,9 +41,9 @@ public class JiraServiceImpl implements JiraService {
 
     private final Logger log = LoggerFactory.getLogger(JiraServiceImpl.class);
 
-    private static final String JIRA_URL = "https://jira.magnolia-cms.com/";
-    private static final String JIRA_ADMIN_USERNAME = "sgasa";
-    private static final String JIRA_ADMIN_PASSWORD = "!M@tG@s@1587";
+    private static final String JIRA_URL = "";
+    private static final String JIRA_ADMIN_USERNAME = "";
+    private static final String JIRA_ADMIN_PASSWORD = "";
 
     private final EpicRepository epicRepository;
 
