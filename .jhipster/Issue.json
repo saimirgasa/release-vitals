@@ -12,6 +12,10 @@
         {
             "fieldName": "key",
             "fieldType": "String"
+        },
+        {
+            "fieldName": "browserURL",
+            "fieldType": "String"
         }
     ],
     "relationships": [

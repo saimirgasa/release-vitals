@@ -29,6 +29,7 @@ export class IssueUpdatePage {
     titleInput = element(by.id('field_title'));
     descriptionInput = element(by.id('field_description'));
     keyInput = element(by.id('field_key'));
+    browserURLInput = element(by.id('field_browserURL'));
     sprintSelect = element(by.id('field_sprint'));
     projectSelect = element(by.id('field_project'));
     epicSelect = element(by.id('field_epic'));
@@ -59,6 +60,14 @@ export class IssueUpdatePage {
 
     async getKeyInput() {
         return this.keyInput.getAttribute('value');
+    }
+
+    async setBrowserURLInput(browserURL) {
+        await this.browserURLInput.sendKeys(browserURL);
+    }
+
+    async getBrowserURLInput() {
+        return this.browserURLInput.getAttribute('value');
     }
 
     async sprintSelectLastOption() {

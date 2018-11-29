@@ -42,6 +42,7 @@ describe('Issue e2e test', () => {
             issueUpdatePage.setTitleInput('title'),
             issueUpdatePage.setDescriptionInput('description'),
             issueUpdatePage.setKeyInput('key'),
+            issueUpdatePage.setBrowserURLInput('browserURL'),
             issueUpdatePage.sprintSelectLastOption(),
             issueUpdatePage.projectSelectLastOption(),
             issueUpdatePage.epicSelectLastOption()
@@ -49,6 +50,7 @@ describe('Issue e2e test', () => {
         expect(await issueUpdatePage.getTitleInput()).to.eq('title');
         expect(await issueUpdatePage.getDescriptionInput()).to.eq('description');
         expect(await issueUpdatePage.getKeyInput()).to.eq('key');
+        expect(await issueUpdatePage.getBrowserURLInput()).to.eq('browserURL');
         await issueUpdatePage.save();
         expect(await issueUpdatePage.getSaveButton().isPresent()).to.be.false;
 

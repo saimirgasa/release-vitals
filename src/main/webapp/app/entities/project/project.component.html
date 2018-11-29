@@ -39,7 +39,6 @@
             <tbody>
             <tr *ngFor="let project of projects ;trackBy: trackId">
                 <td><a [routerLink]="['/project', project.id, 'view' ]">{{project.name}}</a></td>
-                <!--<td>{{project.name}}</td>-->
                 <td>{{project.key}}</td>
                 <td>
                     <div *ngIf="project.release">

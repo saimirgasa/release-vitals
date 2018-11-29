@@ -67,8 +67,7 @@ public class EpicResource {
             throw new BadRequestAlertException("A new epic cannot already have an ID", ENTITY_NAME, "idexists");
         }
         Epic result = epicService.save(epic);
-        result = jiraService.updateEpicDetails(result.getId());
-        result.getUnestimatedIssues().size();
+        result = jiraService.updateEpicDetails(result.getId(), false);
         return ResponseEntity.created(new URI("/api/epics/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -91,6 +90,7 @@ public class EpicResource {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
         Epic result = epicService.save(epic);
+        result = jiraService.updateEpicDetails(result.getId(), true);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, epic.getId().toString()))
             .body(result);

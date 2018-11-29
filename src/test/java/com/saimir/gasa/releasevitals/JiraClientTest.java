@@ -99,12 +99,12 @@ public class JiraClientTest {
             projects.add(createProject("Magnolia License Management", "LICMGMT", release, createVersions("2.0")));
 
             Epic epic = new Epic();
-            epic.setName("6.0 requisite");
+            epic.setName("Resurface theme");
             epic.setProjects(projects);
 
             returnedEpic = printEpicSummary(client, epic, 0);
 
-            returnedEpic.setEpicBrowserURL(uri + "/browse/" + returnedEpic.getKey());
+            returnedEpic.setEpicBrowserURL(buildBrowserURI(returnedEpic.getKey()));
             System.out.println("Epic URL: " + returnedEpic.getEpicBrowserURL());
         }
 
@@ -114,7 +114,7 @@ public class JiraClientTest {
         System.out.println("Total story points completed are: " + returnedEpic.getStoryPointsCompleted());
         System.out.println("Total non-estimated issues is: " + returnedEpic.getUnestimatedIssues().size());
         for (Issue issue : returnedEpic.getUnestimatedIssues()) {
-            System.out.println(issue.getKey());
+            System.out.println(issue.getBrowserURL());
         }
 
         // Done
@@ -165,6 +165,7 @@ public class JiraClientTest {
                                         if (fields.isNull("customfield_10242")) {
                                             Issue jIssue = new Issue();
                                             jIssue.setKey(issue.getString("key"));
+                                            jIssue.setBrowserURL(buildBrowserURI(issue.getString("key")));
                                             jIssue.setProject(project);
                                             jIssue.setEpic(epic);
                                             epic.addUnestimatedIssue(jIssue);
@@ -222,6 +223,10 @@ public class JiraClientTest {
         }
 
         return epic;
+    }
+
+    private static String buildBrowserURI(String issueKey) throws URISyntaxException {
+        return JIRA_URL + "/browse/" + issueKey;
     }
 
     private static Set<Version> createVersions(String name) {

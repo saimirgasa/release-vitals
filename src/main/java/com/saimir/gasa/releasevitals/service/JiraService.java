@@ -9,5 +9,5 @@ public interface JiraService {
      * @param id the id of the Epic entity
      * @return the updated Epic entity
      */
-    Epic updateEpicDetails(Long id);
+    Epic updateEpicDetails(Long id, boolean update);
 }

@@ -68,7 +68,7 @@ class IssueGatlingTest extends Simulation {
             .exec(http("Create new issue")
             .post("/api/issues")
             .headers(headers_http_authenticated)
-            .body(StringBody("""{"id":null, "title":"SAMPLE_TEXT", "description":"SAMPLE_TEXT", "key":"SAMPLE_TEXT"}""")).asJSON
+            .body(StringBody("""{"id":null, "title":"SAMPLE_TEXT", "description":"SAMPLE_TEXT", "key":"SAMPLE_TEXT", "browserURL":"SAMPLE_TEXT"}""")).asJSON
             .check(status.is(201))
             .check(headerRegex("Location", "(.*)").saveAs("new_issue_url"))).exitHereIfFailed
             .pause(10)

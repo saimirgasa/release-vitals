@@ -21,7 +21,7 @@ describe('Service Tests', () => {
             service = injector.get(IssueService);
             httpMock = injector.get(HttpTestingController);
 
-            elemDefault = new Issue(0, 'AAAAAAA', 'AAAAAAA', 'AAAAAAA');
+            elemDefault = new Issue(0, 'AAAAAAA', 'AAAAAAA', 'AAAAAAA', 'AAAAAAA');
         });
 
         describe('Service methods', async () => {
@@ -57,7 +57,8 @@ describe('Service Tests', () => {
                     {
                         title: 'BBBBBB',
                         description: 'BBBBBB',
-                        key: 'BBBBBB'
+                        key: 'BBBBBB',
+                        browserURL: 'BBBBBB'
                     },
                     elemDefault
                 );
@@ -76,7 +77,8 @@ describe('Service Tests', () => {
                     {
                         title: 'BBBBBB',
                         description: 'BBBBBB',
-                        key: 'BBBBBB'
+                        key: 'BBBBBB',
+                        browserURL: 'BBBBBB'
                     },
                     elemDefault
                 );

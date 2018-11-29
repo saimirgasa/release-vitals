@@ -55,6 +55,9 @@ public class IssueResourceIntTest {
     private static final String DEFAULT_KEY = "AAAAAAAAAA";
     private static final String UPDATED_KEY = "BBBBBBBBBB";
 
+    private static final String DEFAULT_BROWSER_URL = "AAAAAAAAAA";
+    private static final String UPDATED_BROWSER_URL = "BBBBBBBBBB";
+
     @Autowired
     private IssueRepository issueRepository;
     
@@ -106,7 +109,8 @@ public class IssueResourceIntTest {
         Issue issue = new Issue()
             .title(DEFAULT_TITLE)
             .description(DEFAULT_DESCRIPTION)
-            .key(DEFAULT_KEY);
+            .key(DEFAULT_KEY)
+            .browserURL(DEFAULT_BROWSER_URL);
         return issue;
     }
 
@@ -133,6 +137,7 @@ public class IssueResourceIntTest {
         assertThat(testIssue.getTitle()).isEqualTo(DEFAULT_TITLE);
         assertThat(testIssue.getDescription()).isEqualTo(DEFAULT_DESCRIPTION);
         assertThat(testIssue.getKey()).isEqualTo(DEFAULT_KEY);
+        assertThat(testIssue.getBrowserURL()).isEqualTo(DEFAULT_BROWSER_URL);
 
         // Validate the Issue in Elasticsearch
         verify(mockIssueSearchRepository, times(1)).save(testIssue);
@@ -173,7 +178,8 @@ public class IssueResourceIntTest {
             .andExpect(jsonPath("$.[*].id").value(hasItem(issue.getId().intValue())))
             .andExpect(jsonPath("$.[*].title").value(hasItem(DEFAULT_TITLE.toString())))
             .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION.toString())))
-            .andExpect(jsonPath("$.[*].key").value(hasItem(DEFAULT_KEY.toString())));
+            .andExpect(jsonPath("$.[*].key").value(hasItem(DEFAULT_KEY.toString())))
+            .andExpect(jsonPath("$.[*].browserURL").value(hasItem(DEFAULT_BROWSER_URL.toString())));
     }
     
     @Test
@@ -189,7 +195,8 @@ public class IssueResourceIntTest {
             .andExpect(jsonPath("$.id").value(issue.getId().intValue()))
             .andExpect(jsonPath("$.title").value(DEFAULT_TITLE.toString()))
             .andExpect(jsonPath("$.description").value(DEFAULT_DESCRIPTION.toString()))
-            .andExpect(jsonPath("$.key").value(DEFAULT_KEY.toString()));
+            .andExpect(jsonPath("$.key").value(DEFAULT_KEY.toString()))
+            .andExpect(jsonPath("$.browserURL").value(DEFAULT_BROWSER_URL.toString()));
     }
 
     @Test
@@ -217,7 +224,8 @@ public class IssueResourceIntTest {
         updatedIssue
             .title(UPDATED_TITLE)
             .description(UPDATED_DESCRIPTION)
-            .key(UPDATED_KEY);
+            .key(UPDATED_KEY)
+            .browserURL(UPDATED_BROWSER_URL);
 
         restIssueMockMvc.perform(put("/api/issues")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -231,6 +239,7 @@ public class IssueResourceIntTest {
         assertThat(testIssue.getTitle()).isEqualTo(UPDATED_TITLE);
         assertThat(testIssue.getDescription()).isEqualTo(UPDATED_DESCRIPTION);
         assertThat(testIssue.getKey()).isEqualTo(UPDATED_KEY);
+        assertThat(testIssue.getBrowserURL()).isEqualTo(UPDATED_BROWSER_URL);
 
         // Validate the Issue in Elasticsearch
         verify(mockIssueSearchRepository, times(1)).save(testIssue);
@@ -292,7 +301,8 @@ public class IssueResourceIntTest {
             .andExpect(jsonPath("$.[*].id").value(hasItem(issue.getId().intValue())))
             .andExpect(jsonPath("$.[*].title").value(hasItem(DEFAULT_TITLE.toString())))
             .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION.toString())))
-            .andExpect(jsonPath("$.[*].key").value(hasItem(DEFAULT_KEY.toString())));
+            .andExpect(jsonPath("$.[*].key").value(hasItem(DEFAULT_KEY.toString())))
+            .andExpect(jsonPath("$.[*].browserURL").value(hasItem(DEFAULT_BROWSER_URL.toString())));
     }
 
     @Test

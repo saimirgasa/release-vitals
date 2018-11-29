@@ -11,7 +11,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 
 import com.atlassian.jira.rest.client.api.IssueRestClient;
 import com.atlassian.jira.rest.client.api.JiraRestClient;
@@ -65,13 +67,22 @@ public class JiraServiceImpl implements JiraService {
      * Update Jira details for the given epic
      */
     @Override
-    public Epic updateEpicDetails(Long id) {
+    public Epic updateEpicDetails(Long id, boolean update) {
         log.debug("Request to update Jira details for Epic : {}", id);
         Optional<Epic> optionalEpic = epicRepository.findById(id);
         Epic epic = null;
         if (optionalEpic.isPresent()) {
             epic = optionalEpic.get();
         }
+
+        if (update) {
+            epic.totalIssueCount(0);
+            epic.totalStoryPoints(0d);
+            epic.unestimatedIssues(new HashSet<>());
+            epic.remainingStoryPoints(0d);
+            epic.storyPointsCompleted(0d);
+        }
+
         try {
             epic = epicSummary(epic, 0);
         } catch (URISyntaxException e) {

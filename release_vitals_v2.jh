@@ -48,7 +48,8 @@ entity Epic {
 entity Issue {
 	title String,
 	description String,
-    key String
+    key String,
+    browserURL String
 }
 
 entity Status {

@@ -11,7 +11,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -93,7 +92,7 @@ public class IssueResource {
      */
     @GetMapping("/issues")
     @Timed
-    public ResponseEntity<List<Issue>> getAllIssues(@PageableDefault(size = 99)Pageable pageable) {
+    public ResponseEntity<List<Issue>> getAllIssues(Pageable pageable) {
         log.debug("REST request to get a page of Issues");
         Page<Issue> page = issueService.findAll(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/issues");
@@ -138,7 +137,7 @@ public class IssueResource {
      */
     @GetMapping("/_search/issues")
     @Timed
-    public ResponseEntity<List<Issue>> searchIssues(@RequestParam String query, @PageableDefault(size = 99)Pageable pageable) {
+    public ResponseEntity<List<Issue>> searchIssues(@RequestParam String query, Pageable pageable) {
         log.debug("REST request to search for a page of Issues for query {}", query);
         Page<Issue> page = issueService.search(query, pageable);
         HttpHeaders headers = PaginationUtil.generateSearchPaginationHttpHeaders(query, page, "/api/_search/issues");

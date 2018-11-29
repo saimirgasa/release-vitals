@@ -44,7 +44,11 @@
                 <td><a [routerLink]="['/issue', issue.id, 'view' ]">{{issue.id}}</a></td>
                 <td>{{issue.title}}</td>
                 <td>{{issue.description}}</td>
-                <td>{{issue.key}}</td>
+                <td>
+                    <div *ngIf="issue.key">
+                        <a href="{{issue.browserURL}}">{{issue.key}}</a>
+                    </div>
+                </td>
                 <td>
                     <div *ngIf="issue.sprint">
                         <a [routerLink]="['../sprint', issue.sprint?.id, 'view' ]" >{{issue.sprint?.name}}</a>

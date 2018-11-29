@@ -20,6 +20,7 @@
             "title": "Title",
             "description": "Description",
             "key": "Key",
+            "browserURL": "Browser URL",
             "sprint": "Sprint",
             "project": "Project",
             "epic": "Epic",

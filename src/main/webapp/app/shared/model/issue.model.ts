@@ -9,6 +9,7 @@ export interface IIssue {
     title?: string;
     description?: string;
     key?: string;
+    browserURL?: string;
     sprint?: ISprint;
     project?: IProject;
     epic?: IEpic;
@@ -22,6 +23,7 @@ export class Issue implements IIssue {
         public title?: string,
         public description?: string,
         public key?: string,
+        public browserURL?: string,
         public sprint?: ISprint,
         public project?: IProject,
         public epic?: IEpic,

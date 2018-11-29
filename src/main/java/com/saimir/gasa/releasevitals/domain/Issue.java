@@ -38,6 +38,9 @@ public class Issue implements Serializable {
     @Column(name = "jhi_key")
     private String key;
 
+    @Column(name = "browser_url")
+    private String browserURL;
+
     @ManyToOne
     @JsonIgnoreProperties("issues")
     private Sprint sprint;
@@ -102,6 +105,19 @@ public class Issue implements Serializable {
 
     public void setKey(String key) {
         this.key = key;
+    }
+
+    public String getBrowserURL() {
+        return browserURL;
+    }
+
+    public Issue browserURL(String browserURL) {
+        this.browserURL = browserURL;
+        return this;
+    }
+
+    public void setBrowserURL(String browserURL) {
+        this.browserURL = browserURL;
     }
 
     public Sprint getSprint() {
@@ -221,6 +237,7 @@ public class Issue implements Serializable {
             ", title='" + getTitle() + "'" +
             ", description='" + getDescription() + "'" +
             ", key='" + getKey() + "'" +
+            ", browserURL='" + getBrowserURL() + "'" +
             "}";
     }
 }
