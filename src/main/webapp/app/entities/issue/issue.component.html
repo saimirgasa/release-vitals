@@ -1,6 +1,6 @@
 <div>
     <h2 id="page-heading">
-        <span jhiTranslate="releaseVitalsApp.issue.home.title">Issues</span>
+        <span jhiTranslate="releaseVitalsApp.issue.home.title">Unestimated Issues</span>
         <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-issue" [routerLink]="['/issue/new']">
             <fa-icon [icon]="'plus'"></fa-icon>
             <span class="hidden-sm-down"  jhiTranslate="releaseVitalsApp.issue.home.createLabel">
@@ -30,8 +30,8 @@
             <thead>
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
             <th jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="title"><span jhiTranslate="releaseVitalsApp.issue.title">Title</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="description"><span jhiTranslate="releaseVitalsApp.issue.description">Description</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <!--<th jhiSortBy="title"><span jhiTranslate="releaseVitalsApp.issue.title">Title</span> <fa-icon [icon]="'sort'"></fa-icon></th>-->
+            <!--<th jhiSortBy="description"><span jhiTranslate="releaseVitalsApp.issue.description">Description</span> <fa-icon [icon]="'sort'"></fa-icon></th>-->
             <th jhiSortBy="key"><span jhiTranslate="releaseVitalsApp.issue.key">Key</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="sprint.id"><span jhiTranslate="releaseVitalsApp.issue.sprint">Sprint</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="project.id"><span jhiTranslate="releaseVitalsApp.issue.project">Project</span> <fa-icon [icon]="'sort'"></fa-icon></th>
@@ -42,8 +42,8 @@
             <tbody>
             <tr *ngFor="let issue of issues ;trackBy: trackId">
                 <td><a [routerLink]="['/issue', issue.id, 'view' ]">{{issue.id}}</a></td>
-                <td>{{issue.title}}</td>
-                <td>{{issue.description}}</td>
+                <!--<td>{{issue.title}}</td>-->
+                <!--<td>{{issue.description}}</td>-->
                 <td>
                     <div *ngIf="issue.key">
                         <a href="{{issue.browserURL}}">{{issue.key}}</a>

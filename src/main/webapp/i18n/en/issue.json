@@ -3,7 +3,7 @@
     "releaseVitalsApp": {
         "issue" : {
             "home": {
-                "title": "Issues",
+                "title": "Unestimated Issues",
                 "createLabel": "Create a new Issue",
                 "createOrEditLabel": "Create or edit a Issue",
                 "search": "Search for Issue"

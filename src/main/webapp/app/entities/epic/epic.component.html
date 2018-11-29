@@ -59,7 +59,7 @@
                 <td>
                     <div *ngIf="epic.unestimatedIssues">
                         <dd *ngFor="let unestimatedIssue of epic.unestimatedIssues">
-                            <a [routerLink]="['/issue', unestimatedIssue?.id, 'view' ]">{{unestimatedIssue.key}}</a>
+                            <a href="{{unestimatedIssue.browserURL}}">{{unestimatedIssue.key}}</a>
                         </dd>
                     </div>
                 </td>

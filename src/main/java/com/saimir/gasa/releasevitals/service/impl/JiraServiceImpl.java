@@ -154,7 +154,7 @@ public class JiraServiceImpl implements JiraService {
                                             jIssue.setKey(issue.getString("key"));
                                             jIssue.setProject(project);
                                             jIssue.setEpic(epic);
-                                            epic.addUnestimatedIssue(jIssue);
+                                            epic.addUnestimatedIssue(this.issueRepository.save(jIssue));
                                         } else {
                                             estimate = Double.valueOf(fields.getString("customfield_10242"));
                                         }

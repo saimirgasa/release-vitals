@@ -183,9 +183,9 @@ public class JiraClientTest {
                                             JSONObject resolutionObj = fields.getJSONObject("resolution");
                                             String resolution = resolutionObj.getString("name");
 
-                                            if (!"Duplicate".equalsIgnoreCase(resolution) && !"Obsolete".equalsIgnoreCase(resolution) &&
-                                                !"Not an issue".equalsIgnoreCase(resolution) && !"Won't Do".equalsIgnoreCase(resolution)) {
-
+//                                            if (!"Duplicate".equalsIgnoreCase(resolution) && !"Obsolete".equalsIgnoreCase(resolution) &&
+//                                                !"Not an issue".equalsIgnoreCase(resolution) && !"Won't Do".equalsIgnoreCase(resolution)) {
+                                            if ("Done".equalsIgnoreCase(resolution) || "Fixed".equalsIgnoreCase(resolution)) {
                                                 // 2018-11-15T11:51:43.000+0100
                                                 String resolutionDateString = fields.getString("resolutiondate");
                                                 // yyyy-MM-dd'T'HH:mm:ss.SSSZ
@@ -196,8 +196,7 @@ public class JiraClientTest {
                                                 if (project.getRelease().getEndDate().isAfter(resolutionInstant) &&
                                                     project.getRelease().getStartDate().isBefore(resolutionInstant)) {
 
-                                                    if (("Closed".equalsIgnoreCase(status) || "Resolved".equalsIgnoreCase(status)) &&
-                                                        ("Done".equalsIgnoreCase(resolution) || "Fixed".equalsIgnoreCase(resolution))) {
+                                                    if ("Closed".equalsIgnoreCase(status) || "Resolved".equalsIgnoreCase(status)) {
 
                                                         epic.addToStoryPointsCompleted(estimate);
                                                     } else {

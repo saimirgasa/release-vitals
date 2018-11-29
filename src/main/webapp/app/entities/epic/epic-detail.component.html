@@ -44,7 +44,7 @@
                 <dt><span jhiTranslate="releaseVitalsApp.epic.unestimatedIssue">Unestimated Issues</span></dt>
                 <dd>
                     <span *ngFor="let unestimatedIssue of epic.unestimatedIssues; let last = last">
-                        <dt><a [routerLink]="['/issue', unestimatedIssue?.id, 'view' ]">{{unestimatedIssue.title}}</a></dt>
+                        <dt><a [routerLink]="['/issue', unestimatedIssue?.id, 'view' ]">{{unestimatedIssue.key}}</a></dt>
                     </span>
                 </dd>
             </dl>

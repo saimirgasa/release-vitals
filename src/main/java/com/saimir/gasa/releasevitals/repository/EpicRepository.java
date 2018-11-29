@@ -25,7 +25,7 @@ public interface EpicRepository extends JpaRepository<Epic, Long> {
     @Query(value = "select distinct epic from Epic epic left join fetch epic.projects left join fetch epic.unestimatedIssues")
     List<Epic> findAllWithEagerRelationships();
 
-    @Query("select epic from Epic epic left join fetch epic.projects where epic.id =:id")
+    @Query("select epic from Epic epic left join fetch epic.projects left join fetch epic.unestimatedIssues where epic.id =:id")
     Optional<Epic> findOneWithEagerRelationships(@Param("id") Long id);
 
 }
