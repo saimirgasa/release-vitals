@@ -47,17 +47,17 @@
                 <td>{{issue.key}}</td>
                 <td>
                     <div *ngIf="issue.sprint">
-                        <a [routerLink]="['../sprint', issue.sprint?.id, 'view' ]" >{{issue.sprint?.id}}</a>
+                        <a [routerLink]="['../sprint', issue.sprint?.id, 'view' ]" >{{issue.sprint?.name}}</a>
                     </div>
                 </td>
                 <td>
                     <div *ngIf="issue.project">
-                        <a [routerLink]="['../project', issue.project?.id, 'view' ]" >{{issue.project?.id}}</a>
+                        <a [routerLink]="['../project', issue.project?.id, 'view' ]" >{{issue.project?.name}}</a>
                     </div>
                 </td>
                 <td>
                     <div *ngIf="issue.epic">
-                        <a [routerLink]="['../epic', issue.epic?.id, 'view' ]" >{{issue.epic?.id}}</a>
+                        <a [routerLink]="['../epic', issue.epic?.id, 'view' ]" >{{issue.epic?.name}}</a>
                     </div>
                 </td>
                 <td class="text-right">

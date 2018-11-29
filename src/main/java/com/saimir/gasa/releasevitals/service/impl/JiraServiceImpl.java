@@ -41,9 +41,9 @@ public class JiraServiceImpl implements JiraService {
 
     private final Logger log = LoggerFactory.getLogger(JiraServiceImpl.class);
 
-    private static final String JIRA_URL = "";
-    private static final String JIRA_ADMIN_USERNAME = "";
-    private static final String JIRA_ADMIN_PASSWORD = "";
+    private static final String JIRA_URL = "https://jira.magnolia-cms.com/";
+    private static final String JIRA_ADMIN_USERNAME = "sgasa";
+    private static final String JIRA_ADMIN_PASSWORD = "!M@tG@s@1587";
 
     private final EpicRepository epicRepository;
 
@@ -124,61 +124,65 @@ public class JiraServiceImpl implements JiraService {
             for (int i = 0; i < issues.length(); i++) {
                 JSONObject issue = issues.getJSONObject(i);
                 JSONObject fields = issue.getJSONObject("fields");
-                JSONArray fixVersions = fields.getJSONArray("fixVersions");
-                // only the issues that are tagged with the release provided should be inspected
-                for (int j = 0; j < fixVersions.length(); j++) {
-                    JSONObject statusObj = fields.getJSONObject("status");
-                    String status = statusObj.getString("name");
-                    for (Project project : epic.getProjects()) {
-                        for (Version version : project.getVersions()) {
-                            // check if the issue has the fix version set to the same value as the project one
-                            if (version.getName().equalsIgnoreCase(fixVersions.getJSONObject(j).getString("name"))) {
-                                JSONObject projectObj = fields.getJSONObject("project");
-                                String projectKey = projectObj.getString("key");
-                                if (project.getKey().equalsIgnoreCase(projectKey)) {
-                                    double estimate = 0;
-                                    if (fields.isNull("customfield_10242")) {
-                                        Issue jIssue = new Issue();
-                                        jIssue.setKey(issue.getString("key"));
-                                        jIssue.setProject(project);
-                                        jIssue.setEpic(epic);
-                                        epic.addUnestimatedIssue(issueRepository.save(jIssue));
-                                    } else {
-                                        estimate = Double.valueOf(fields.getString("customfield_10242"));
-                                    }
+                if (!fields.isNull("fixVersions")) {
+                    JSONArray fixVersions = fields.getJSONArray("fixVersions");
+                    // only the issues that are tagged with the release provided should be inspected
+                    for (int j = 0; j < fixVersions.length(); j++) {
+                        JSONObject statusObj = fields.getJSONObject("status");
+                        String status = statusObj.getString("name");
+                        for (Project project : epic.getProjects()) {
+                            for (Version version : project.getVersions()) {
+                                // check if the issue has the fix version set to the same value as the project one
+                                if (version.getName().equalsIgnoreCase(fixVersions.getJSONObject(j).getString("name"))) {
+                                    JSONObject projectObj = fields.getJSONObject("project");
+                                    String projectKey = projectObj.getString("key");
+                                    if (project.getKey().equalsIgnoreCase(projectKey)) {
+                                        double estimate = 0;
+                                        if (fields.isNull("customfield_10242")) {
+                                            Issue jIssue = new Issue();
+                                            jIssue.setKey(issue.getString("key"));
+                                            jIssue.setProject(project);
+                                            jIssue.setEpic(epic);
+                                            epic.addUnestimatedIssue(jIssue);
+                                        } else {
+                                            estimate = Double.valueOf(fields.getString("customfield_10242"));
+                                        }
 
-                                    System.out.println(issue.getString("key"));
-                                    // add to total story points
-                                    epic.addToTotalStoryPoints(estimate);
-                                    // add to total issue count
-                                    epic.addToTotalIssueCount(1);
+                                        System.out.println(issue.getString("key"));
+                                        // add to total story points
+                                        epic.addToTotalStoryPoints(estimate);
+                                        // add to total issue count
+                                        epic.addToTotalIssueCount(1);
 
-                                    if (!fields.isNull("resolution")) {
-                                        JSONObject resolutionObj = fields.getJSONObject("resolution");
-                                        String resolution = resolutionObj.getString("name");
+                                        if (!fields.isNull("resolution")) {
+                                            JSONObject resolutionObj = fields.getJSONObject("resolution");
+                                            String resolution = resolutionObj.getString("name");
 
-                                        if (!"Duplicate".equalsIgnoreCase(resolution) && !"Obsolete".equalsIgnoreCase(resolution) &&
-                                            !"Not an issue".equalsIgnoreCase(resolution)) {
+                                            if (!"Duplicate".equalsIgnoreCase(resolution) && !"Obsolete".equalsIgnoreCase(resolution) &&
+                                                !"Not an issue".equalsIgnoreCase(resolution) && !"Won't Do".equalsIgnoreCase(resolution)) {
 
-                                            // 2018-11-15T11:51:43.000+0100
-                                            String resolutionDateString = fields.getString("resolutiondate");
-                                            // yyyy-MM-dd'T'HH:mm:ss.SSSZ
-                                            Date date = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ").parse(resolutionDateString);
-                                            Instant resolutionInstant = date.toInstant();
+                                                // 2018-11-15T11:51:43.000+0100
+                                                String resolutionDateString = fields.getString("resolutiondate");
+                                                // yyyy-MM-dd'T'HH:mm:ss.SSSZ
+                                                Date date = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ").parse(resolutionDateString);
+                                                Instant resolutionInstant = date.toInstant();
 
-                                            // check if the issue is resolved after the release start date and before the end date
-                                            if (project.getRelease().getEndDate().isAfter(resolutionInstant) &&
-                                                project.getRelease().getStartDate().isBefore(resolutionInstant)) {
+                                                // check if the issue is resolved after the release start date and before the end date
+                                                if (project.getRelease().getEndDate().isAfter(resolutionInstant) &&
+                                                    project.getRelease().getStartDate().isBefore(resolutionInstant)) {
 
-                                                if (("Closed".equalsIgnoreCase(status) || "Resolved".equalsIgnoreCase(status)) &&
-                                                    ("Done".equalsIgnoreCase(resolution) || "Fixed".equalsIgnoreCase(resolution))) {
+                                                    if (("Closed".equalsIgnoreCase(status) || "Resolved".equalsIgnoreCase(status)) &&
+                                                        ("Done".equalsIgnoreCase(resolution) || "Fixed".equalsIgnoreCase(resolution))) {
 
-                                                    epic.addToStoryPointsCompleted(estimate);
+                                                        epic.addToStoryPointsCompleted(estimate);
+                                                    } else {
+                                                        epic.addToRemainingStoryPoints(estimate);
+                                                    }
                                                 }
                                             }
+                                        } else {
+                                            epic.addToRemainingStoryPoints(estimate);
                                         }
-                                    } else {
-                                        epic.addToRemainingStoryPoints(estimate);
                                     }
                                 }
                             }
@@ -194,5 +198,9 @@ public class JiraServiceImpl implements JiraService {
         }
 
         return epic;
+    }
+
+    private static URI buildBrowserURI(String issueKey) throws URISyntaxException {
+        return new URI(JIRA_URL + "/browse/" + issueKey);
     }
 }
